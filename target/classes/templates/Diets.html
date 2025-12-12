@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Dietas - GymFit</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body class="bg">
+<div class="container" style="text-align:center; padding:2rem;">
+    <a href="/">← Volver al inicio</a>
+    <h1 class="title">Elige tu Dieta</h1>
+
+    <div class="cards">
+        <!-- DIETA OMNÍVORA -->
+        <div class="card">
+            <img src="https://tn.com.ar/resizer/Ll8hm_CX7ZiSLIs37M191Xw5OLE=/arc-anglerfish-arc2-prod-artear/public/JXOKGTV4M5EMHKSCCAK2OM6QWY.jpg" alt="Omnívora">
+            <h3>Dieta Omnívora</h3>
+            <p>Proteínas animales + vegetales<br>Ideal para ganar músculo</p>
+            <a class="btn" th:href="@{/diet/omnivoro}">Ver Menú →</a>
+        </div>
+
+        <!-- DIETA VEGANA -->
+        <div class="card">
+            <img src="https://www.mytherapyapp.com/media/pages/es/blog/dieta-vegana-reduce-colesterol/1ae35bd2a4-1733691189/colesterol-dieta-vegana-titulo-1200x675-crop-1-q65-optimized.jpg" alt="Vegana">
+            <h3>Dieta Vegana</h3>
+            <p>100% vegetal<br>Perfecta para definición</p>
+            <a class="btn" th:href="@{/diet/vegano}">Ver Menú →</a>
+        </div>
+
+        <!-- DIETA VEGETARIANA -->
+        <div class="card">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRokKEPZAW1EtpoE0ibic5jdMTeJUzehntl9A&s" alt="Vegetariana">
+            <h3>Dieta Vegetariana</h3>
+            <p>Sin carne, con lácteos y huevos<br>Equilibrada y deliciosa</p>
+            <a class="btn" th:href="@{/diet/vegetariano}">Ver Menú →</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

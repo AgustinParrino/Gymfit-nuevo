@@ -1,0 +1,99 @@
+body.bg {
+    margin: 0;
+    background: #0d0d0d;
+    color: #fff;
+    font-family: Arial, sans-serif;
+}
+
+.topbar {
+    background: #111;
+    padding: 10px 20px;
+    text-align: right;
+}
+
+.topbar a {
+    color: #ff4040;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.container {
+    width: 85%;
+    margin: auto;
+    padding-top: 20px;
+}
+
+.title {
+    font-size: 2.5rem;
+    text-align: center;
+}
+.title span {
+    color: #ff5050;
+}
+
+.cards {
+    display: flex;
+    gap: 25px;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 20px 0;
+}
+
+.card {
+    background: #1a1a1a;
+    border-radius: 10px;
+    padding: 15px;
+    width: 260px;
+    text-align: center;
+    transition: transform .2s;
+}
+.card.small { width: 220px; }
+
+.card:hover { transform: scale(1.05); }
+
+.card img {
+    width: 100%;
+    border-radius: 8px;
+}
+
+.btn {
+    display: inline-block;
+    padding: 8px 14px;
+    margin-top: 10px;
+    background: #ff3b3b;
+    border-radius: 6px;
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+}
+.btn.big { padding: 10px 20px; font-size: 1.1em; }
+
+.form-container {
+    max-width: 380px;
+    margin: 120px auto;
+    background: #1b1b1b;
+    padding: 20px 30px;
+    border-radius: 10px;
+}
+
+.form-container input {
+    width: 100%;
+    margin: 10px 0;
+    padding: 12px;
+    border-radius: 8px;
+    border: none;
+    outline: none;
+}
+
+.switch a {
+    color: #ff5050;
+}
+
+/* Animación suave */
+.fade-in {
+    animation: fade 1s ease-in-out;
+}
+@keyframes fade {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}

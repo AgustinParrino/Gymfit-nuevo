@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <title th:text="${product.name + ' - GymFit'}"></title>
+  <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body class="bg">
+<div class="container">
+  <a href="/products">← Todos los productos</a>
+  <h1 class="title" th:text="${product.name}"></h1>
+
+  <div style="max-width: 600px; margin: 2rem auto;">
+    <img th:src="@{
+                ${product.name.toLowerCase().contains('agua')} ? 'https://i.imgur.com/5J3xKpL.png' :
+                ${product.name.toLowerCase().contains('vitamina')} ? 'https://i.imgur.com/0dR8sYJ.jpg' :
+                ${product.name.toLowerCase().contains('barra')} ? 'https://i.imgur.com/3P9kLmN.jpg' :
+                ${product.name.toLowerCase().contains('prote') || product.name.toLowerCase().contains('whey')} ? 'https://i.imgur.com/Qw4Rt2P.jpg' :
+                ${product.name.toLowerCase().contains('creatina')} ? 'https://i.imgur.com/H2mN7vD.jpg' :
+                'https://i.imgur.com/default-suplemento.jpg'
+            }" style="width:100%; border-radius:20px; box-shadow:0 15px 35px rgba(0,0,0,0.6);">
+
+    <div style="margin-top:2rem; background:rgba(255,255,255,0.1); padding:2rem; border-radius:16px; backdrop-filter:blur(10px);">
+      <p style="font-size:1.2rem; line-height:1.8;" th:text="${product.description}"></p>
+      <p style="margin-top:1rem;"><strong>Precio:</strong> <span style="color:#ff4757; font-size:1.4rem;" th:text="${product.price}"></span></p>
+      <p><strong>Tamaño:</strong> <span th:text="${product.size}"></span></p>
+    </div>
+  </div>
+</div>
+</body>
+</html>
