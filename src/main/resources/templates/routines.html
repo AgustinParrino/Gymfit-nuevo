@@ -1,18 +1,95 @@
 <!doctype html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-<head><meta charset="utf-8"><title>Rutinas</title>
+<head>
+  <meta charset="utf-8">
+  <title>Rutinas Semanales - GymFit</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" th:href="@{/css/styles.css}">
+  <style>
+    .dia-header {
+        background: linear-gradient(135deg, #ff6b00, #ff8f00);
+        color: white;
+        padding: 20px;
+        margin: 40px 0 20px;
+        border-radius: 20px;
+        text-align: center;
+        font-size: 2.3rem;
+        font-weight: 900;
+        text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        box-shadow: 0 10px 30px rgba(255,107,0,0.3);
+    }
+
+    .rutina-card {
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(12px);
+        border-radius: 20px;
+        padding: 25px;
+        margin: 15px;
+        border: 1px solid rgba(255,255,255,0.2);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        transition: all 0.3s ease;
+        min-height: 200px;
+    }
+
+    .rutina-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 40px rgba(255,107,0,0.4);
+        background: rgba(255,255,255,0.25);
+    }
+
+    .rutina-card h3 {
+        color: #ff6b00;
+        font-size: 1.8rem;
+        margin-bottom: 15px;
+        text-align: center;
+        font-weight: 800;
+    }
+
+    .notes {
+        white-space: pre-line;
+        line-height: 1.8;
+        font-size: 1.1rem;
+        color: #fff;
+        text-shadow: 0 1px 3px rgba(0,0,0,0.6);
+    }
+
+    .descanso {
+        background: linear-gradient(135deg, #1a1a2e, #16213e) !important;
+        border: 2px solid #0f3460;
+    }
+
+    .descanso h3 {
+        color: #00d4ff !important;
+    }
+
+    @media (max-width: 768px) {
+        .dia-header { font-size: 1.8rem; padding: 15px; }
+        .rutina-card { margin: 10px 5px; padding: 20px; }
+    }
+  </style>
 </head>
 <body class="bg">
-<div class="agrandarVolver" >
+
+<div class="agrandarVolver">
   <a href="/">← Volver</a>
 </div>
-  <h1>Rutinas</h1>
+
+<h1 style="text-align:center; color:#fff; font-size:3.5rem; margin:30px 0; text-shadow: 0 0 20px #ff6b00;">
+  Rutina Semanal
+</h1>
+
+<div th:each="entry : ${routinesByDay}">
+  <div class="dia-header" th:text="${entry.key}"></div>
+
   <div class="cards">
-    <div th:each="r: ${routines}" class="card">
+    <div th:each="r : ${entry.value}"
+         th:classappend="${entry.key.contains('Descanso')} ? 'rutina-card descanso' : 'rutina-card'"
+         class="card rutina-card">
       <h3 th:text="${r.title}"></h3>
-      <p th:text="${r.notes}"></p>
+      <div class="notes" th:utext="${r.notes.replace('\n', '<br>')}"></div>
     </div>
   </div>
+</div>
+
 </body>
 </html>

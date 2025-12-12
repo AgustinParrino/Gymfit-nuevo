@@ -34,9 +34,9 @@ public class GymfitApplication {
                 dietRepo.save(new Diet(null, "Dieta Vegana", "Sin productos animales, basada en plantas.", "Desayuno: Smoothie verde\\nAlmuerzo: Quinoa con vegetales\\nCena: Curry de garbanzos"));
             }
             if (routineRepo.count()==0) {
-                routineRepo.save(new Routine(null, "Piernas", "Sentadillas 4x10; Zancadas 3x12; Peso muerto rumano 3x8", "Intermedio"));
-                routineRepo.save(new Routine(null, "Brazos", "Curl de bíceps 3x12; Fondos 3x10; Extensiones triceps 3x12", "Intermedio"));
-                routineRepo.save(new Routine(null, "Pecho", "Press banca 4x8; Aperturas 3x12; Flexiones 3x15", "Intermedio"));
+                routineRepo.save(new Routine(null, "Piernas", "Sentadillas 4x10; Zancadas 3x12; Peso muerto rumano 3x8", "Intermedio", null));
+                routineRepo.save(new Routine(null, "Brazos", "Curl de bíceps 3x12; Fondos 3x10; Extensiones triceps 3x12", "Intermedio", null));
+                routineRepo.save(new Routine(null, "Pecho", "Press banca 4x8; Aperturas 3x12; Flexiones 3x15", "Intermedio", null));
             }
             if (mealRepo.count()==0) {
                 Diet veg = dietRepo.findAll().get(0);

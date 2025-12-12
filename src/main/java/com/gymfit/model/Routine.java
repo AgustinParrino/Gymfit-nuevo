@@ -8,6 +8,7 @@ import lombok.*;
 public class Routine {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String day;
     private String title;
     @Column(length=4000)
     private String notes;
