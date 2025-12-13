@@ -11,14 +11,13 @@
   <h1 class="title" th:text="${product.name}"></h1>
 
   <div style="max-width: 600px; margin: 2rem auto;">
-    <img th:src="@{
-                ${product.name.toLowerCase().contains('agua')} ? 'https://i.imgur.com/5J3xKpL.png' :
-                ${product.name.toLowerCase().contains('vitamina')} ? 'https://i.imgur.com/0dR8sYJ.jpg' :
-                ${product.name.toLowerCase().contains('barra')} ? 'https://i.imgur.com/3P9kLmN.jpg' :
-                ${product.name.toLowerCase().contains('prote') || product.name.toLowerCase().contains('whey')} ? 'https://i.imgur.com/Qw4Rt2P.jpg' :
-                ${product.name.toLowerCase().contains('creatina')} ? 'https://i.imgur.com/H2mN7vD.jpg' :
-                'https://i.imgur.com/default-suplemento.jpg'
-            }" style="width:100%; border-radius:20px; box-shadow:0 15px 35px rgba(0,0,0,0.6);">
+    <img th:src="${ product.name.toLowerCase().contains('agua') ? 'https://casarica.cdn1.dattamax.com/userfiles/images/productos/448/7751655000633.jpg' :
+                product.name.toLowerCase().contains('vitamina') ? 'https://www.redoxon.com.ar/sites/g/files/vrxlpx49611/files/2021-03/Ima%CC%81genes---Tubos-Redoxon-1gr_0.png' :
+                product.name.toLowerCase().contains('barra') ? 'https://farmaciasdelpueblo.vtexassets.com/arquivos/ids/169958/44757_Protein-Bar-Barra-de-Frutilla-x-1-unid_img2.png?v=637462446528500000' :
+                product.name.toLowerCase().contains('prote') || product.name.toLowerCase().contains('whey') ? 'https://www.uomax.com.ar/13481-large_default/whey-protein-ena-true-made-vainilla-ice-cream-x-930-gr.jpg' :
+                product.name.toLowerCase().contains('creatina') ? 'https://cloudinary.images-iherb.com/image/upload/f_auto,q_auto:eco/images/nrx/nrx02992/y/8.jpg' :
+                product.name.toLowerCase().contains('bcaa') ? 'https://www.enasport.com/cdn/shop/products/BCAA_211.jpg?v=1683514389&width=2048' :
+                'https://i.imgur.com/default-suplemento.jpg' }" style="width:100%; border-radius:10px; margin-bottom:2rem;" alt="Producto">
 
     <div style="margin-top:2rem; background:rgba(255,255,255,0.1); padding:2rem; border-radius:16px; backdrop-filter:blur(10px);">
       <p style="font-size:1.2rem; line-height:1.8;" th:text="${product.description}"></p>

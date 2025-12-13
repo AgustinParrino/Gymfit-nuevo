@@ -12,18 +12,16 @@
 
   <div class="cards">
     <div th:each="p : ${products}" class="card">
-      <img th:src="@{
-                    ${p.name.toLowerCase().contains('agua')} ? 'https://i.imgur.com/5J3xKpL.png' :
-                    ${p.name.toLowerCase().contains('vitamina')} ? 'https://i.imgur.com/0dR8sYJ.jpg' :
-                    ${p.name.toLowerCase().contains('barra')} ? 'https://i.imgur.com/3P9kLmN.jpg' :
-                    ${p.name.toLowerCase().contains('prote') || p.name.toLowerCase().contains('whey')} ? 'https://i.imgur.com/Qw4Rt2P.jpg' :
-                    ${p.name.toLowerCase().contains('creatina')} ? 'https://i.imgur.com/H2mN7vD.jpg' :
-                    ${p.name.toLowerCase().contains('preworkout') || p.name.toLowerCase().contains('pre-entreno')} ? 'https://i.imgur.com/9kR8vX2.jpg' :
-                    ${p.name.toLowerCase().contains('bcaa')} ? 'https://i.imgur.com/BCAA123.jpg' :
-                    ${p.name.toLowerCase().contains('glutamina')} ? 'https://i.imgur.com/glutamina.jpg' :
-                    ${p.name.toLowerCase().contains('omega')} ? 'https://i.imgur.com/omega3.jpg' :
-                    'https://i.imgur.com/default-suplemento.jpg'
-                }" class="card-img-top" alt="producto">
+      <img th:src="${ p.name.toLowerCase().contains('agua') ? 'https://casarica.cdn1.dattamax.com/userfiles/images/productos/448/7751655000633.jpg' :
+                    p.name.toLowerCase().contains('vitamina') ? 'https://www.redoxon.com.ar/sites/g/files/vrxlpx49611/files/2021-03/Ima%CC%81genes---Tubos-Redoxon-1gr_0.png' :
+                    p.name.toLowerCase().contains('barra') ? 'https://farmaciasdelpueblo.vtexassets.com/arquivos/ids/169958/44757_Protein-Bar-Barra-de-Frutilla-x-1-unid_img2.png?v=637462446528500000' :
+                    p.name.toLowerCase().contains('prote') || p.name.toLowerCase().contains('whey') ? 'https://www.uomax.com.ar/13481-large_default/whey-protein-ena-true-made-vainilla-ice-cream-x-930-gr.jpg' :
+                    p.name.toLowerCase().contains('creatina') ? 'https://cloudinary.images-iherb.com/image/upload/f_auto,q_auto:eco/images/nrx/nrx02992/y/8.jpg' :
+                    p.name.toLowerCase().contains('preworkout') || p.name.toLowerCase().contains('pre-entreno') ? 'https://i.imgur.com/9kR8vX2.jpg' :
+                    p.name.toLowerCase().contains('bcaa') ? 'https://www.enasport.com/cdn/shop/products/BCAA_211.jpg?v=1683514389&width=2048' :
+                    p.name.toLowerCase().contains('glutamina') ? 'https://i.imgur.com/glutamina.jpg' :
+                    p.name.toLowerCase().contains('omega') ? 'https://i.imgur.com/omega3.jpg' :
+                    'https://i.imgur.com/default-suplemento.jpg' }" class="card-img-top" alt="producto">
 
       <h3 th:text="${p.name}"></h3>
       <p th:text="${p.description}"></p>
