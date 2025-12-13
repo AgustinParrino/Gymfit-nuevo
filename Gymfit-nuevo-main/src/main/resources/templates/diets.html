@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dietas - GymFit</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&display=swap" rel="stylesheet">
+    <style>
+        body.bg { background: linear-gradient(rgba(0,0,0,0.88), rgba(0,0,0,0.95)), url('https://thumbs.dreamstime.com/b/diet-healthy-food-lifestyle-health-concept-sport-exercise-equipment-workout-and-gym-background-nutrition-detox-salad-f-179855057.jpg') center/cover fixed; }
+
+        h1 { font-size: 4.5rem; background: linear-gradient(90deg, #00eeff, #ff6b00); -webkit-background-clip: text; color: transparent; text-align: center; margin: 60px 0; }
+
+        .dietas-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+            padding: 40px;
+        }
+
+        .dieta-card {
+            background: rgba(255,255,255,0.08);
+            backdrop-filter: blur(15px);
+            border-radius: 30px;
+            overflow: hidden;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+            transition: all 0.4s ease;
+            border: 2px solid rgba(255,255,255,0.1);
+        }
+
+        .dieta-card:hover {
+            transform: translateY(-20px) scale(1.05);
+            box-shadow: 0 30px 70px rgba(255,107,0,0.6);
+        }
+
+        .dieta-card img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+
+        .dieta-info {
+            padding: 30px;
+            text-align: center;
+        }
+
+        .dieta-info h2 {
+            font-size: 2.4rem;
+            color: #ff6b00;
+            margin-bottom: 15px;
+        }
+
+        .dieta-info p {
+            font-size: 1.3rem;
+            color: #e0e0e0;
+            line-height: 1.7;
+        }
+
+        .btn-dieta {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 15px 40px;
+            background: linear-gradient(135deg, #ff6b00, #ff8f00);
+            color: white;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 800;
+            box-shadow: 0 10px 30px rgba(255,107,0,0.4);
+            transition: all 0.3s;
+        }
+
+        .btn-dieta:hover {
+            transform: scale(1.1);
+            box-shadow: 0 15px 40px rgba(255,107,0,0.6);
+        }
+    </style>
+</head>
+<body class="bg">
+<div class="agrandarVolver">
+    <a href="/">Volver al Inicio</a>
+</div>
+
+<h1>ELEGÍ TU DIETA</h1>
+
+<div class="dietas-grid">
+    <!-- Omnívora -->
+    <div class="dieta-card">
+        <img src="https://hips.hearstapps.com/hmg-prod/images/chicken-broccoli-67e6bc48d2d9c.jpg" alt="Dieta Omnívora">
+        <div class="dieta-info">
+            <h2>Dieta Omnívora</h2>
+            <p>La más efectiva para ganar músculo. Proteínas animales + carbohidratos complejos.</p>
+            <a th:href="@{/diet/omnivoro}" class="btn-dieta">Ver Plan Completo</a>
+        </div>
+    </div>
+
+    <!-- Vegana -->
+    <div class="dieta-card">
+        <img src="https://lookaside.fbsbx.com/lookaside/crawler/media/?media_id=10159759335293274" alt="Dieta Vegana">
+        <div class="dieta-info">
+            <h2>Dieta Vegana</h2>
+            <p>100% vegetal. Ideal para definición y salud cardiovascular.</p>
+            <a th:href="@{/diet/vegano}" class="btn-dieta">Ver Plan Completo</a>
+        </div>
+    </div>
+
+    <!-- Vegetariana -->
+    <div class="dieta-card">
+        <img src="https://gymbeam.com/blog/wp-content/uploads/2021/09/Fb-Vajecne-ranajky.png" alt="Dieta Vegetariana">
+        <div class="dieta-info">
+            <h2>Dieta Vegetariana</h2>
+            <p>Sin carne pero con huevos y lácteos. Excelente balance proteico.</p>
+            <a th:href="@{/diet/vegetariano}" class="btn-dieta">Ver Plan Completo</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

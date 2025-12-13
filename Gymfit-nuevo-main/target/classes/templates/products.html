@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <title>Productos - GymFit</title>
+  <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body class="bg">
+<div class="container">
+  <a href="/">← Volver al inicio</a>
+  <h1 class="title">Nuestros Productos</h1>
+
+  <div class="cards">
+    <div th:each="p : ${products}" class="card">
+      <img th:src="@{
+                    ${p.name.toLowerCase().contains('agua')} ? 'https://i.imgur.com/5J3xKpL.png' :
+                    ${p.name.toLowerCase().contains('vitamina')} ? 'https://i.imgur.com/0dR8sYJ.jpg' :
+                    ${p.name.toLowerCase().contains('barra')} ? 'https://i.imgur.com/3P9kLmN.jpg' :
+                    ${p.name.toLowerCase().contains('prote') || p.name.toLowerCase().contains('whey')} ? 'https://i.imgur.com/Qw4Rt2P.jpg' :
+                    ${p.name.toLowerCase().contains('creatina')} ? 'https://i.imgur.com/H2mN7vD.jpg' :
+                    ${p.name.toLowerCase().contains('preworkout') || p.name.toLowerCase().contains('pre-entreno')} ? 'https://i.imgur.com/9kR8vX2.jpg' :
+                    ${p.name.toLowerCase().contains('bcaa')} ? 'https://i.imgur.com/BCAA123.jpg' :
+                    ${p.name.toLowerCase().contains('glutamina')} ? 'https://i.imgur.com/glutamina.jpg' :
+                    ${p.name.toLowerCase().contains('omega')} ? 'https://i.imgur.com/omega3.jpg' :
+                    'https://i.imgur.com/default-suplemento.jpg'
+                }" class="card-img-top" alt="producto">
+
+      <h3 th:text="${p.name}"></h3>
+      <p th:text="${p.description}"></p>
+      <a th:href="@{'/products/' + ${p.id}}" class="btn">Ver Detalle</a>
+    </div>
+  </div>
+</div>
+</body>
+</html>

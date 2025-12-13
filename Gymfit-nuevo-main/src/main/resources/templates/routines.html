@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rutina Semanal - GymFit</title>
+  <link rel="stylesheet" th:href="@{/css/styles.css}">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    h1 {
+        text-align: center;
+        font-size: 4.5rem;
+        font-weight: 900;
+        background: linear-gradient(90deg, #ff6b00, #ff8f00, #ffb300, #ff6b00);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        text-shadow: 0 0 30px rgba(255,107,0,0.5);
+        margin: 40px 0 60px;
+        animation: glow 3s infinite alternate;
+    }
+
+    @keyframes glow {
+        from { filter: drop-shadow(0 0 20px #ff6b00); }
+        to { filter: drop-shadow(0 0 40px #ffb300); }
+    }
+    /* Pega esto al final de tu src/main/resources/static/css/styles.css */
+body.bg {
+    background: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.92)),
+                url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=90') center/cover no-repeat fixed;
+    min-height: 100vh;
+    font-family: 'Montserrat', 'Segoe UI', sans-serif;
+}
+
+/* Botón volver ultra bonito */
+.agrandarVolver a {
+    position: fixed;
+    top: 25px;
+    left: 25px;
+    background: linear-gradient(135deg, #ff6b00, #ff8f00);
+    color: white;
+    padding: 14px 28px;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 1.1rem;
+    text-decoration: none;
+    box-shadow: 0 8px 25px rgba(255,107,0,0.4);
+    transition: all 0.3s ease;
+    z-index: 1000;
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255,255,255,0.2);
+}
+
+.agrandarVolver a:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 15px 40px rgba(255,107,0,0.6);
+    background: linear-gradient(135deg, #ff8f00, #ffb300);
+}
+
+    .dia-header {
+        background: linear-gradient(135deg, #1a1a2e, #16213e);
+        color: #00eeff;
+        padding: 20px 40px;
+        margin: 50px auto 30px;
+        max-width: 600px;
+        border-radius: 25px;
+        text-align: center;
+        font-size: 2.6rem;
+        font-weight: 900;
+        border: 3px solid #00eeff;
+        box-shadow: 0 0 40px rgba(0, 238, 255, 0.4),
+                    inset 0 0 20px rgba(0, 238, 255, 0.2);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .dia-header::before {
+        content: '';
+        position: absolute;
+        top: -50%; left: -50%;
+        width: 200%; height: 200%;
+        background: conic-gradient(from 0deg, transparent, #00eeff, transparent);
+        animation: rotate 8s linear infinite;
+        opacity: 0.1;
+    }
+
+    @keyframes rotate {
+        100% { transform: rotate(360deg); }
+    }
+
+    .rutina-card {
+        background: linear-gradient(145deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
+        backdrop-filter: blur(15px);
+        border-radius: 25px;
+        padding: 30px;
+        margin: 20px;
+        border: 2px solid rgba(255,255,255,0.15);
+        box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+        transition: all 0.4s ease;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .rutina-card:hover {
+        transform: translateY(-15px) scale(1.03);
+        box-shadow: 0 25px 60px rgba(255,107,0,0.5);
+        border-color: #ff6b00;
+    }
+
+    .rutina-card h3 {
+        color: #ff6b00;
+        font-size: 2.2rem;
+        margin-bottom: 20px;
+        text-align: center;
+        font-weight: 800;
+        text-shadow: 0 0 20px rgba(255,107,0,0.6);
+    }
+
+    .notes {
+        white-space: pre-line;
+        line-height: 2;
+        font-size: 1.25rem;
+        color: #e0e0e0;
+        font-weight: 600;
+    }
+
+    /* Días de descanso con vibe relajada */
+    .descanso {
+        background: linear-gradient(145deg, #0f3460, #1a1a2e) !important;
+        border: 3px solid #00d4ff !important;
+    }
+
+    .descanso h3 {
+        color: #00eeff !important;
+        text-shadow: 0 0 20px #00eeff;
+    }
+
+    .cards {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 20px;
+        padding: 0 20px;
+    }
+
+    @media (max-width: 768px) {
+        h1 { font-size: 3rem; }
+        .dia-header { font-size: 2rem; padding: 15px; }
+        .rutina-card { padding: 20px; margin: 10px; }
+        .notes { font-size: 1.1rem; }
+    }
+  </style>
+</head>
+<body class="bg">
+
+<div class="agrandarVolver">
+  <a href="/">Volver al Inicio</a>
+</div>
+
+<h1>RUTINA SEMANAL</h1>
+
+<div th:each="entry : ${routinesByDay}">
+  <div class="dia-header" th:text="${entry.key}"></div>
+
+  <div class="cards">
+    <div th:each="r : ${entry.value}"
+         th:classappend="${entry.key.contains('Descanso')} ? 'rutina-card descanso' : 'rutina-card'"
+         class="card rutina-card">
+      <h3 th:text="${r.title}"></h3>
+      <div class="notes" th:utext="${r.notes.replace('\n', '<br>')}"></div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

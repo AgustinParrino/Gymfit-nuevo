@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${titulo} + ' - GymFit'">Dieta</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <style>
+        body.bg { background: linear-gradient(rgba(0,0,0,0.9), rgba(0,0,0,0.95)), url('https://static.vecteezy.com/system/resources/thumbnails/066/572/023/small/healthy-meal-prep-containers-filled-with-cooked-salmon-vegetables-and-quinoa-photo.jpg') center/cover fixed; }
+
+        .detail-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 30px;
+            color: #00eeff;
+            font-size: 1.4rem;
+            text-decoration: none;
+        }
+
+        h1 {
+            font-size: 5rem;
+            text-align: center;
+            color: #ff6b00;
+            text-shadow: 0 0 30px rgba(255,107,0,0.6);
+            margin: 40px 0;
+        }
+
+        .descripcion {
+            font-size: 1.8rem;
+            text-align: center;
+            color: #e0e0e0;
+            margin-bottom: 60px;
+        }
+
+        .meals-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .meal-card {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(15px);
+            border-radius: 25px;
+            padding: 25px;
+            text-align: center;
+            border: 2px solid #ff6b00;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+            transition: all 0.4s;
+        }
+
+        .meal-card:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 25px 60px rgba(255,107,0,0.5);
+            border-color: #ffb300;
+        }
+
+        .meal-card strong {
+            display: block;
+            font-size: 2rem;
+            color: #ff6b00;
+            margin-bottom: 15px;
+        }
+
+        .meal-card p {
+            font-size: 1.4rem;
+            color: #fff;
+            line-height: 1.8;
+        }
+    </style>
+</head>
+<body class="bg">
+<div class="agrandarVolver">
+    <a href="/">Volver al Inicio</a>
+</div>
+
+<div class="detail-container">
+    <a href="/diets" class="back-link">← Volver a todas las dietas</a>
+
+    <h1 th:text="${titulo}"></h1>
+    <p class="descripcion" th:text="${descripcion}"></p>
+
+    <div class="meals-grid">
+        <div th:each="meal : ${meals}" class="meal-card">
+            <strong th:text="${meal.split(':')[0] + ':'}"></strong>
+            <p th:text="${meal.split(':')[1]}"></p>
+        </div>
+    </div>
+</div>
+</body>
+</html>
