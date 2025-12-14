@@ -2,33 +2,42 @@
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Productos - GymFit</title>
-  <link rel="stylesheet" th:href="@{/css/styles.css}">
+  <style>
+    body { margin:0; padding:0; font-family:'Montserrat','Arial',sans-serif; background:linear-gradient(rgba(0,0,0,0.88),rgba(0,0,0,0.95)),url('https://images.unsplash.com/photo-1517836357463-d25dfeac3438?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=90') center/cover fixed; min-height:100vh; color:#fff; }
+    .agrandarVolver a { position:fixed; top:30px; left:30px; background:linear-gradient(135deg,#ff6b00,#ff8f00); color:white; padding:16px 32px; border-radius:50px; font-weight:900; font-size:1.2rem; text-decoration:none; box-shadow:0 10px 30px rgba(255,107,0,0.5); transition:all 0.3s; z-index:1000; }
+    .agrandarVolver a:hover { transform:translateY(-8px) scale(1.05); box-shadow:0 20px 50px rgba(255,107,0,0.7); }
+    .title { font-size:5rem; text-align:center; margin:100px 0 60px; background:linear-gradient(90deg,#ff6b00,#ffb300,#ff6b00); -webkit-background-clip:text; background-clip:text; color:transparent; text-shadow:0 0 30px rgba(255,107,0,0.5); font-weight:900; }
+    .cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(350px,1fr)); gap:40px; padding:0 40px; max-width:1600px; margin:0 auto; }
+    .card { background:rgba(255,255,255,0.08); backdrop-filter:blur(15px); border-radius:30px; overflow:hidden; box-shadow:0 15px 40px rgba(0,0,0,0.5); transition:all 0.4s; border:2px solid rgba(255,107,0,0.2); text-align:center; padding:20px; }
+    .card:hover { transform:translateY(-20px); box-shadow:0 30px 70px rgba(255,107,0,0.6); border-color:#ff6b00; }
+    .card img { width:100%; height:300px; object-fit:cover; border-radius:20px; margin-bottom:20px; }
+    .card h3 { font-size:2.4rem; color:#ff6b00; margin:20px 0; }
+    .card p { font-size:1.2rem; line-height:1.6; margin-bottom:20px; }
+    .card .btn { display:inline-block; padding:15px 40px; background:linear-gradient(135deg,#ff6b00,#ff8f00); color:white; border-radius:50px; text-decoration:none; font-weight:800; box-shadow:0 10px 30px rgba(255,107,0,0.4); transition:all 0.3s; }
+    .card .btn:hover { transform:scale(1.1); box-shadow:0 15px 40px rgba(255,107,0,0.6); }
+  </style>
 </head>
-<body class="bg">
-<div class="container">
-  <a href="/">← Volver al inicio</a>
-  <h1 class="title">Nuestros Productos</h1>
+<body>
+<div class="agrandarVolver">
+  <a href="/">Volver al Inicio</a>
+</div>
 
-  <div class="cards">
-    <div th:each="p : ${products}" class="card">
-      <img th:src="@{
-                    ${p.name.toLowerCase().contains('agua')} ? 'https://i.imgur.com/5J3xKpL.png' :
-                    ${p.name.toLowerCase().contains('vitamina')} ? 'https://i.imgur.com/0dR8sYJ.jpg' :
-                    ${p.name.toLowerCase().contains('barra')} ? 'https://i.imgur.com/3P9kLmN.jpg' :
-                    ${p.name.toLowerCase().contains('prote') || p.name.toLowerCase().contains('whey')} ? 'https://i.imgur.com/Qw4Rt2P.jpg' :
-                    ${p.name.toLowerCase().contains('creatina')} ? 'https://i.imgur.com/H2mN7vD.jpg' :
-                    ${p.name.toLowerCase().contains('preworkout') || p.name.toLowerCase().contains('pre-entreno')} ? 'https://i.imgur.com/9kR8vX2.jpg' :
-                    ${p.name.toLowerCase().contains('bcaa')} ? 'https://i.imgur.com/BCAA123.jpg' :
-                    ${p.name.toLowerCase().contains('glutamina')} ? 'https://i.imgur.com/glutamina.jpg' :
-                    ${p.name.toLowerCase().contains('omega')} ? 'https://i.imgur.com/omega3.jpg' :
-                    'https://i.imgur.com/default-suplemento.jpg'
-                }" class="card-img-top" alt="producto">
+<h1 class="title">NUESTROS PRODUCTOS</h1>
 
-      <h3 th:text="${p.name}"></h3>
-      <p th:text="${p.description}"></p>
-      <a th:href="@{'/products/' + ${p.id}}" class="btn">Ver Detalle</a>
-    </div>
+<div class="cards">
+  <div th:each="p : ${products}" class="card">
+    <img th:src="${ p.name.toLowerCase().contains('agua') ? 'https://casarica.cdn1.dattamax.com/userfiles/images/productos/448/7751655000633.jpg' :
+                          p.name.toLowerCase().contains('vitamina') ? 'https://www.redoxon.com.ar/sites/g/files/vrxlpx49611/files/2021-03/Ima%CC%81genes---Tubos-Redoxon-1gr_0.png' :
+                          p.name.toLowerCase().contains('barra') ? 'https://farmaciasdelpueblo.vtexassets.com/arquivos/ids/169958/44757_Protein-Bar-Barra-de-Frutilla-x-1-unid_img2.png?v=637462446528500000' :
+                          p.name.toLowerCase().contains('whey') || p.name.toLowerCase().contains('prote') ? 'https://www.uomax.com.ar/13481-large_default/whey-protein-ena-true-made-vainilla-ice-cream-x-930-gr.jpg' :
+                          p.name.toLowerCase().contains('creatina') ? 'https://cloudinary.images-iherb.com/image/upload/f_auto,q_auto:eco/images/nrx/nrx02992/y/8.jpg' :
+                          p.name.toLowerCase().contains('bcaa') ? 'https://www.enasport.com/cdn/shop/products/BCAA_211.jpg?v=1683514389&width=2048' :
+                          'https://via.placeholder.com/400x300?text=Suplemento+GymFit' }" alt="producto">
+    <h3 th:text="${p.name}"></h3>
+    <p th:text="${p.description}"></p>
+    <a th:href="@{'/products/' + ${p.id}}" class="btn">Ver Detalle</a>
   </div>
 </div>
 </body>

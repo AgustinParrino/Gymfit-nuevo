@@ -2,29 +2,42 @@
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title th:text="${product.name + ' - GymFit'}"></title>
-  <link rel="stylesheet" th:href="@{/css/styles.css}">
+  <style>
+    body { margin:0; padding:0; font-family:'Montserrat','Arial',sans-serif; background:linear-gradient(rgba(0,0,0,0.88),rgba(0,0,0,0.95)),url('https://images.unsplash.com/photo-1517836357463-d25dfeac3438?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=90') center/cover fixed; min-height:100vh; color:#fff; }
+    .agrandarVolver a { position:fixed; top:30px; left:30px; background:linear-gradient(135deg,#ff6b00,#ff8f00); color:white; padding:16px 32px; border-radius:50px; font-weight:900; font-size:1.2rem; text-decoration:none; box-shadow:0 10px 30px rgba(255,107,0,0.5); transition:all 0.3s; z-index:1000; }
+    .agrandarVolver a:hover { transform:translateY(-8px) scale(1.05); box-shadow:0 20px 50px rgba(255,107,0,0.7); }
+    .container { max-width:800px; margin:120px auto 60px; padding:40px; text-align:center; }
+    .back { display:inline-block; margin-bottom:30px; color:#00eeff; font-size:1.4rem; text-decoration:none; }
+    .title { font-size:4.5rem; color:#ff6b00; text-shadow:0 0 30px rgba(255,107,0,0.6); margin-bottom:40px; font-weight:900; }
+    .product-img { width:100%; max-width:600px; border-radius:25px; box-shadow:0 20px 50px rgba(0,0,0,0.6); margin-bottom:40px; }
+    .info-box { background:rgba(255,255,255,0.1); backdrop-filter:blur(15px); padding:40px; border-radius:25px; box-shadow:0 15px 40px rgba(0,0,0,0.4); }
+    .info-box p { font-size:1.4rem; line-height:1.8; margin:20px 0; }
+    .price { color:#ff6b00; font-size:2rem; font-weight:900; }
+  </style>
 </head>
-<body class="bg">
+<body>
+<div class="agrandarVolver">
+  <a href="/">Volver al Inicio</a>
+</div>
+
 <div class="container">
-  <a href="/products">← Todos los productos</a>
+  <a href="/products" class="back">← Todos los productos</a>
   <h1 class="title" th:text="${product.name}"></h1>
 
-  <div style="max-width: 600px; margin: 2rem auto;">
-    <img th:src="@{
-                ${product.name.toLowerCase().contains('agua')} ? 'https://i.imgur.com/5J3xKpL.png' :
-                ${product.name.toLowerCase().contains('vitamina')} ? 'https://i.imgur.com/0dR8sYJ.jpg' :
-                ${product.name.toLowerCase().contains('barra')} ? 'https://i.imgur.com/3P9kLmN.jpg' :
-                ${product.name.toLowerCase().contains('prote') || product.name.toLowerCase().contains('whey')} ? 'https://i.imgur.com/Qw4Rt2P.jpg' :
-                ${product.name.toLowerCase().contains('creatina')} ? 'https://i.imgur.com/H2mN7vD.jpg' :
-                'https://i.imgur.com/default-suplemento.jpg'
-            }" style="width:100%; border-radius:20px; box-shadow:0 15px 35px rgba(0,0,0,0.6);">
+  <img th:src="${ product.name.toLowerCase().contains('agua') ? 'https://casarica.cdn1.dattamax.com/userfiles/images/productos/448/7751655000633.jpg' :
+                      product.name.toLowerCase().contains('vitamina') ? 'https://www.redoxon.com.ar/sites/g/files/vrxlpx49611/files/2021-03/Ima%CC%81genes---Tubos-Redoxon-1gr_0.png' :
+                      product.name.toLowerCase().contains('barra') ? 'https://farmaciasdelpueblo.vtexassets.com/arquivos/ids/169958/44757_Protein-Bar-Barra-de-Frutilla-x-1-unid_img2.png?v=637462446528500000' :
+                      product.name.toLowerCase().contains('whey') || product.name.toLowerCase().contains('prote') ? 'https://www.uomax.com.ar/13481-large_default/whey-protein-ena-true-made-vainilla-ice-cream-x-930-gr.jpg' :
+                      product.name.toLowerCase().contains('creatina') ? 'https://cloudinary.images-iherb.com/image/upload/f_auto,q_auto:eco/images/nrx/nrx02992/y/8.jpg' :
+                      product.name.toLowerCase().contains('bcaa') ? 'https://www.enasport.com/cdn/shop/products/BCAA_211.jpg?v=1683514389&width=2048' :
+                      'https://via.placeholder.com/600x400?text=Suplemento+GymFit' }" class="product-img" alt="Producto">
 
-    <div style="margin-top:2rem; background:rgba(255,255,255,0.1); padding:2rem; border-radius:16px; backdrop-filter:blur(10px);">
-      <p style="font-size:1.2rem; line-height:1.8;" th:text="${product.description}"></p>
-      <p style="margin-top:1rem;"><strong>Precio:</strong> <span style="color:#ff4757; font-size:1.4rem;" th:text="${product.price}"></span></p>
-      <p><strong>Tamaño:</strong> <span th:text="${product.size}"></span></p>
-    </div>
+  <div class="info-box">
+    <p th:text="${product.description}"></p>
+    <p><strong>Precio:</strong> <span class="price" th:text="'$' + ${product.price}"></span></p>
+    <p><strong>Tamaño:</strong> <span th:text="${product.size}"></span></p>
   </div>
 </div>
 </body>
