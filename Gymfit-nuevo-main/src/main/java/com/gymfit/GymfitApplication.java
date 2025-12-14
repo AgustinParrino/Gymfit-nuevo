@@ -23,10 +23,16 @@ public class GymfitApplication {
             if (userRepo.count()==0) {
                 userRepo.save(new User(null, "Agus", "agus@example.com", "1234"));
             }
-            if (productRepo.count()==0) {
+            if (productRepo.count() == 0) {
                 productRepo.save(new Product(null, "Agua energizante", "Agua con electrolitos para rehidratación rápida.", "bebida", new BigDecimal("199.99"), "500ml", "img/agua.jpg"));
                 productRepo.save(new Product(null, "Vitamina C", "Cápsulas de vitamina C para recuperación.", "suplemento", new BigDecimal("599.99"), "60 caps", "img/vitamina.jpg"));
                 productRepo.save(new Product(null, "Barra Proteica", "Barra energética para después del ejercicio.", "suplemento", new BigDecimal("349.99"), "60g", "img/barra.jpg"));
+            }
+
+            if (productRepo.count() == 3) { // Agrega los nuevos cuando ya existan los 3 básicos
+                productRepo.save(new Product(null, "Creatina Monohidrato", "Suplemento para aumentar la fuerza y masa muscular.", "suplemento", new BigDecimal("899.99"), "300g", "img/creatina.jpg"));
+                productRepo.save(new Product(null, "Whey Protein", "Proteína de suero para recuperación post-entreno.", "suplemento", new BigDecimal("1299.99"), "1kg", "img/whey.jpg"));
+                productRepo.save(new Product(null, "BCAAs 2:1:1", "Aminoácidos para reducir fatiga muscular.", "suplemento", new BigDecimal("799.99"), "200g", "img/bcaa.jpg"));
             }
             if (dietRepo.count()==0) {
                 dietRepo.save(new Diet(null, "Dieta Vegetariana", "Baja en carne, rica en vegetales.", "Desayuno: Avena con frutas\\nAlmuerzo: Ensalada con legumbres\\nCena: Tofu salteado"));

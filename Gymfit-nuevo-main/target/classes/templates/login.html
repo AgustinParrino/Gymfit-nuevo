@@ -2,27 +2,123 @@
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>Iniciar sesión</title>
-  <link rel="stylesheet" th:href="@{/css/styles.css}">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Iniciar sesión - GymFit</title>
+  <style>
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Montserrat', 'Arial', sans-serif;
+        background: linear-gradient(rgba(0,0,0,0.88), rgba(0,0,0,0.95)),
+                    url('https://images.unsplash.com/photo-1517836357463-d25dfeac3438?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=90') center/cover fixed;
+        min-height: 100vh;
+        color: #fff;
+    }
+
+    .agrandarVolver a {
+        position: fixed;
+        top: 30px;
+        left: 30px;
+        background: linear-gradient(135deg, #ff6b00, #ff8f00);
+        color: white;
+        padding: 16px 32px;
+        border-radius: 50px;
+        font-weight: 900;
+        font-size: 1.2rem;
+        text-decoration: none;
+        box-shadow: 0 10px 30px rgba(255,107,0,0.5);
+        transition: all 0.3s ease;
+        z-index: 1000;
+        backdrop-filter: blur(10px);
+        border: 2px solid rgba(255,255,255,0.3);
+    }
+
+    .agrandarVolver a:hover {
+        transform: translateY(-8px) scale(1.05);
+        box-shadow: 0 20px 50px rgba(255,107,0,0.7);
+    }
+
+    .form-container {
+        max-width: 500px;
+        margin: 120px auto;
+        padding: 60px;
+        background: rgba(255,255,255,0.08);
+        backdrop-filter: blur(20px);
+        border-radius: 30px;
+        text-align: center;
+        box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+        border: 2px solid rgba(255,107,0,0.3);
+    }
+
+    .form-container h1 {
+        font-size: 3.8rem;
+        color: #ff6b00;
+        margin-bottom: 50px;
+        text-shadow: 0 0 20px rgba(255,107,0,0.6);
+        font-weight: 900;
+    }
+
+    .form-container input {
+        width: 100%;
+        padding: 20px;
+        margin: 20px 0;
+        border: none;
+        border-radius: 50px;
+        background: rgba(255,255,255,0.15);
+        color: white;
+        font-size: 1.3rem;
+        backdrop-filter: blur(10px);
+    }
+
+    .form-container input::placeholder {
+        color: rgba(255,255,255,0.7);
+    }
+
+    .form-container button {
+        width: 100%;
+        padding: 20px;
+        background: linear-gradient(135deg, #ff6b00, #ff8f00);
+        color: white;
+        border: none;
+        border-radius: 50px;
+        font-size: 1.5rem;
+        font-weight: 900;
+        cursor: pointer;
+        margin-top: 30px;
+        box-shadow: 0 10px 30px rgba(255,107,0,0.5);
+        transition: all 0.3s;
+    }
+
+    .form-container button:hover {
+        transform: scale(1.05);
+        box-shadow: 0 20px 50px rgba(255,107,0,0.7);
+    }
+
+    .switch {
+        margin-top: 40px;
+        font-size: 1.3rem;
+    }
+
+    .switch a {
+        color: #ff6b00;
+        font-weight: bold;
+        text-decoration: underline;
+    }
+  </style>
 </head>
+<body>
+<div class="agrandarVolver">
+  <a href="/">Volver</a>
+</div>
 
-<body class="bg" bgcolor="">
-
-<section class="form-container fade-in">
-  <h1>Iniciar sesión</h1>
-
+<section class="form-container">
+  <h1>INICIAR SESIÓN</h1>
   <form th:action="@{/auth/login}" method="post">
     <input type="text" name="email" placeholder="Email" required>
     <input type="password" name="password" placeholder="Contraseña" required>
-
-    <button class="btn big" type="submit">Entrar</button>
+    <button type="submit">ENTRAR</button>
   </form>
-
-  <p class="switch">
-    ¿No tenés cuenta?
-    <a th:href="@{/auth/register}">Registrate</a>
-  </p>
+  <p class="switch">¿No tenés cuenta? <a th:href="@{/auth/register}">Registrate aquí</a></p>
 </section>
-
 </body>
 </html>
