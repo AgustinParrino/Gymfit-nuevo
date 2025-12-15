@@ -6,8 +6,30 @@
   <title th:text="${product.name + ' - GymFit'}"></title>
   <style>
     body { margin:0; padding:0; font-family:'Montserrat','Arial',sans-serif; background:linear-gradient(rgba(0,0,0,0.88),rgba(0,0,0,0.95)),url('https://images.unsplash.com/photo-1517836357463-d25dfeac3438?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=90') center/cover fixed; min-height:100vh; color:#fff; }
-    .agrandarVolver a { position:fixed; top:30px; left:30px; background:linear-gradient(135deg,#ff6b00,#ff8f00); color:white; padding:16px 32px; border-radius:50px; font-weight:900; font-size:1.2rem; text-decoration:none; box-shadow:0 10px 30px rgba(255,107,0,0.5); transition:all 0.3s; z-index:1000; }
-    .agrandarVolver a:hover { transform:translateY(-8px) scale(1.05); box-shadow:0 20px 50px rgba(255,107,0,0.7); }
+
+    .agrandarVolver a {
+        position: fixed;
+        top: 30px;
+        left: 30px;
+        background: linear-gradient(135deg, #ff6b00, #ff8f00);
+        color: white;
+        padding: 16px 32px;
+        border-radius: 50px;
+        font-weight: 900;
+        font-size: 1.2rem;
+        text-decoration: none;
+        box-shadow: 0 10px 30px rgba(255,107,0,0.5);
+        transition: all 0.3s ease;
+        z-index: 1000;
+        backdrop-filter: blur(10px);
+        border: 2px solid rgba(255,255,255,0.3);
+    }
+
+    .agrandarVolver a:hover {
+        transform: translateY(-8px) scale(1.05);
+        box-shadow: 0 20px 50px rgba(255,107,0,0.7);
+    }
+
     .container { max-width:800px; margin:120px auto 60px; padding:40px; text-align:center; }
     .back { display:inline-block; margin-bottom:30px; color:#00eeff; font-size:1.4rem; text-decoration:none; }
     .title { font-size:4.5rem; color:#ff6b00; text-shadow:0 0 30px rgba(255,107,0,0.6); margin-bottom:40px; font-weight:900; }
