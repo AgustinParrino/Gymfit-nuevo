@@ -13,6 +13,56 @@
             margin: 0 auto;
             padding: 40px;
         }
+         .agrandarVolver a {
+        position: fixed;
+        top: 30px;
+        left: 30px;
+        background: linear-gradient(135deg, #ff6b00, #ff8f00);
+        color: white;
+        padding: 16px 32px;
+        border-radius: 50px;
+        font-weight: 900;
+        font-size: 1.2rem;
+        text-decoration: none;
+        box-shadow: 0 10px 30px rgba(255,107,0,0.5);
+        transition: all 0.3s ease;
+        z-index: 1000;
+        backdrop-filter: blur(10px);
+        border: 2px solid rgba(255,255,255,0.3);
+    }
+
+    .agrandarVolver a:hover {
+        transform: translateY(-8px) scale(1.05);
+        box-shadow: 0 20px 50px rgba(255,107,0,0.7);
+    }
+
+    .ListaDietas {
+    position: fixed;
+    top: 30px;
+    right: 30px;
+    z-index: 1000;
+}
+
+.ListaDietas a {
+    background: linear-gradient(135deg, #00eeff, #00bcd4);
+    color: #000;
+    padding: 14px 30px;
+    border-radius: 50px;
+    font-weight: 800;
+    font-size: 1.1rem;
+    text-decoration: none;
+    box-shadow: 0 10px 30px rgba(0, 238, 255, 0.4);
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255,255,255,0.3);
+    display: inline-block;
+}
+
+.ListaDietas a:hover {
+    transform: translateY(-6px) scale(1.05);
+    box-shadow: 0 20px 50px rgba(0, 238, 255, 0.6);
+}
+
 
         .back-link {
             display: inline-block;
@@ -80,7 +130,10 @@
 </div>
 
 <div class="detail-container">
+
+    <div class="ListaDietas">
     <a href="/diets" class="back-link">← Volver a todas las dietas</a>
+    </div>
 
     <h1 th:text="${titulo}"></h1>
     <p class="descripcion" th:text="${descripcion}"></p>
