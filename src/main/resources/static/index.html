@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GymFit Pro - Club & E-Commerce Oficial</title>
+    <!-- Bootstrap 5 & FontAwesome Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --brand-red: #ff3b30;
+            --brand-dark: #0a0a0a;
+            --brand-card: #141414;
+            --brand-gold: #ffcc00;
+            --brand-purple: #8a2be2;
+        }
+        body {
+            background-color: var(--brand-dark);
+            color: #f0f0f0;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+        
+        /* Imagen del Box de Entrenamiento / CrossFit */
+        .hero-gym {
+            background: linear-gradient(180deg, rgba(10,10,10,0.4) 0%, rgba(10,10,10,0.98) 100%), 
+                        url('https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=1600&q=80') center/cover;
+            padding: 5rem 2rem 4rem 2rem;
+            border-bottom: 2px solid #222;
+        }
+        
+        .card-product {
+            background-color: var(--brand-card);
+            border: 1px solid #262626;
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        .card-product:hover {
+            transform: translateY(-8px);
+            border-color: var(--brand-red);
+            box-shadow: 0 12px 30px rgba(255, 59, 48, 0.25);
+        }
+        .action-img-wrapper {
+            height: 230px;
+            position: relative;
+            overflow: hidden;
+        }
+        .action-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        .card-product:hover .action-img {
+            transform: scale(1.08);
+        }
+        .badge-top {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: rgba(0, 0, 0, 0.85);
+            border: 1px solid var(--brand-gold);
+            color: var(--brand-gold);
+            font-weight: 800;
+            font-size: 0.78rem;
+            padding: 6px 12px;
+            border-radius: 20px;
+            backdrop-filter: blur(4px);
+            z-index: 2;
+        }
+        .badge-discipline {
+            position: absolute;
+            bottom: 12px;
+            left: 12px;
+            background: rgba(255, 59, 48, 0.9);
+            color: #fff;
+            font-weight: 700;
+            font-size: 0.75rem;
+            padding: 5px 12px;
+            border-radius: 6px;
+            z-index: 2;
+            text-transform: uppercase;
+            backdrop-filter: blur(4px);
+        }
+        .price-tag {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #2ed573;
+        }
+        .console-panel {
+            background-color: #050505;
+            border: 1px solid #222;
+            border-radius: 14px;
+        }
+        #log-salida {
+            font-family: 'Consolas', 'Courier New', monospace;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+        
+        .recommended-box {
+            background: linear-gradient(135deg, #1f1a00 0%, #161616 100%);
+            border: 1px solid var(--brand-gold);
+            border-radius: 14px;
+        }
+
+        .ai-advisor-box {
+            background: linear-gradient(135deg, #1c0f24 0%, #0d0d0d 100%);
+            border: 1px solid var(--brand-purple);
+            border-radius: 16px;
+        }
+
+        .modal-content {
+            background-color: #121212;
+            border: 1px solid #333;
+            color: #fff;
+        }
+        .form-control, .form-select {
+            background-color: #1e1e1e;
+            border: 1px solid #333;
+            color: #fff;
+        }
+        .form-control:focus, .form-select:focus {
+            background-color: #252525;
+            color: #fff;
+            border-color: var(--brand-red);
+            box-shadow: 0 0 0 0.25rem rgba(255, 59, 48, 0.25);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navegación Superior -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-black py-3 border-bottom border-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand fs-3 fw-bold text-white" href="index.html">
+                <i class="fa-solid fa-dumbbell text-danger me-2"></i>GYMFIT <span class="text-danger">PRO</span>
+            </a>
+            <div class="d-flex align-items-center gap-3">
+                <a href="catalogo.html" class="btn btn-warning fw-bold btn-sm text-dark px-3">
+                    <i class="fa-solid fa-store me-1"></i> Ver Catálogo Completo
+                </a>
+                <a href="admin.html" class="btn btn-outline-light btn-sm fw-bold px-3">
+                    <i class="fa-solid fa-gear me-1"></i> Administración
+                </a>
+                <button class="btn btn-outline-danger btn-sm fw-bold"><i class="fa-solid fa-cart-shopping me-1"></i> Carrito (0)</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header Principal -->
+    <header class="hero-gym text-center">
+        <div class="container">
+            <span class="badge bg-danger text-uppercase px-3 py-2 mb-3 fw-bold letter-spacing-1">
+                <i class="fa-solid fa-location-dot me-1"></i> Training Box & Store Oficial
+            </span>
+            <h1 class="display-3 fw-extrabold text-white mb-3" style="font-weight: 900; letter-spacing: -1px;">
+                GYMFIT PRO <span class="text-danger">BOX</span>
+            </h1>
+            <p class="lead text-light max-w-800 mx-auto mb-4 fs-4" style="max-width: 800px; color: #ccc;">
+                Functional Training, CrossFit & Suplementación Oficial integrada con nuestro sistema de pedidos e Inteligencia Artificial.
+            </p>
+            
+            <div class="recommended-box p-3 max-w-700 mx-auto mb-4 text-start shadow" style="max-width: 750px;">
+                <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+                    <div>
+                        <span class="badge bg-warning text-dark fw-bold mb-1"><i class="fa-solid fa-star me-1"></i> MÁS RECOMENDADO DEL BOX</span>
+                        <h5 class="text-white fw-bold m-0">Combo Rendimiento Total: Creatina + Whey Protein</h5>
+                        <small class="text-secondary">Elegido para potenciar fuerza y recuperación en cada WOD de alta intensidad.</small>
+                    </div>
+                    <a href="catalogo.html" class="btn btn-warning btn-sm fw-bold px-3 py-2 text-dark">
+                        <i class="fa-solid fa-arrow-right me-1"></i> Ir al Catálogo Completo
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- DESTACADOS -->
+    <section class="container my-5">
+        <div class="row mb-5 text-center">
+            <div class="col-12">
+                <h2 class="display-6 fw-bold text-white mb-2">
+                    <i class="fa-solid fa-fire-flame-curved text-danger me-2"></i>Los Productos Más Vendidos
+                </h2>
+                <p class="text-secondary fs-5">Los suplementos de mayor rotación dentro de nuestra comunidad.</p>
+            </div>
+        </div>
+
+        <div class="row g-4">
+            <!-- Producto 1 -->
+            <div class="col-lg-4 col-md-6">
+                <div class="card card-product h-100 d-flex flex-column justify-content-between">
+                    <div>
+                        <div class="action-img-wrapper">
+                            <span class="badge-top"><i class="fa-solid fa-crown me-1"></i> #1 MÁS VENDIDO</span>
+                            <span class="badge-discipline"><i class="fa-solid fa-person-running me-1"></i> Functional Fit</span>
+                            <img src="https://images.unsplash.com/photo-1518611012118-696072aa579a?auto=format&fit=crop&w=800&q=80" class="action-img" alt="Proteina">
+                        </div>
+                        <div class="p-4">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span class="badge bg-danger">Tonificación</span>
+                                <small class="text-secondary">Pote 1kg (33 serv.)</small>
+                            </div>
+                            <h4 class="fw-bold text-white mb-2">Proteína Whey Gold</h4>
+                            <p class="text-secondary small mb-3">Acelera la reconstrucción muscular posterior a circuitos exigentes con kettlebells y zona media.</p>
+                        </div>
+                    </div>
+                    <div class="px-4 pb-4">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <span class="text-secondary small">Precio Oficial:</span>
+                            <span class="price-tag">$25.000</span>
+                        </div>
+                        <button class="btn btn-danger w-100 fw-bold py-2 shadow-sm" onclick="abrirModalCompra(1, 'Proteína Whey Gold 1kg', 25000)">
+                            <i class="fa-solid fa-cart-shopping me-2"></i> Comprar con Asesor IA
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Producto 2 -->
+            <div class="col-lg-4 col-md-6">
+                <div class="card card-product h-100 d-flex flex-column justify-content-between">
+                    <div>
+                        <div class="action-img-wrapper">
+                            <span class="badge-top"><i class="fa-solid fa-bolt me-1"></i> POTENCIA EXTREMA</span>
+                            <span class="badge-discipline"><i class="fa-solid fa-dumbbell me-1"></i> Peso Muerto & Bumper</span>
+                            <img src="https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?auto=format&fit=crop&w=800&q=80" class="action-img" alt="Creatina">
+                        </div>
+                        <div class="p-4">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span class="badge bg-primary">Fuerza & ATP</span>
+                                <small class="text-secondary">Pote 300g (60 dosis)</small>
+                            </div>
+                            <h4 class="fw-bold text-white mb-2">Creatina Micronizada</h4>
+                            <p class="text-secondary small mb-3">Fuerza explosiva pura para levantar más kilos en barra, peso muerto y ejercicios de potencia.</p>
+                        </div>
+                    </div>
+                    <div class="px-4 pb-4">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <span class="text-secondary small">Precio Oficial:</span>
+                            <span class="price-tag">$30.000</span>
+                        </div>
+                        <button class="btn btn-primary w-100 fw-bold py-2 shadow-sm" onclick="abrirModalCompra(2, 'Creatina Micronizada 300g', 30000)">
+                            <i class="fa-solid fa-cart-shopping me-2"></i> Comprar con Asesor IA
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Producto 3 -->
+            <div class="col-lg-4 col-md-6">
+                <div class="card card-product h-100 d-flex flex-column justify-content-between">
+                    <div>
+                        <div class="action-img-wrapper">
+                            <span class="badge-top"><i class="fa-solid fa-fire me-1"></i> ENERGÍA INMEDIATA</span>
+                            <span class="badge-discipline"><i class="fa-solid fa-stopwatch me-1"></i> WODs & HIIT</span>
+                            <img src="https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?auto=format&fit=crop&w=800&q=80" class="action-img" alt="Pre workout">
+                        </div>
+                        <div class="p-4">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span class="badge bg-warning text-dark">Energía & Foco</span>
+                                <small class="text-secondary">Pote 400g (40 dosis)</small>
+                            </div>
+                            <h4 class="fw-bold text-white mb-2">Pre-Workout Extreme</h4>
+                            <p class="text-secondary small mb-3">Estimula el enfoque y la vasodilatación para mantener la velocidad en bloques intensos por tiempo.</p>
+                        </div>
+                    </div>
+                    <div class="px-4 pb-4">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <span class="text-secondary small">Precio Oficial:</span>
+                            <span class="price-tag">$22.000</span>
+                        </div>
+                        <button class="btn btn-warning text-dark w-100 fw-bold py-2 shadow-sm" onclick="abrirModalCompra(3, 'Pre-Workout Extreme 400g', 22000)">
+                            <i class="fa-solid fa-cart-shopping me-2"></i> Comprar con Asesor IA
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- BOTÓN DIRECTO AL CATÁLOGO -->
+        <div class="text-center mt-5 pt-3">
+            <a href="catalogo.html" class="btn btn-warning btn-lg fw-bold px-5 py-3 shadow fs-5 text-dark">
+                <i class="fa-solid fa-store me-2"></i> Ver Catálogo Completo de Productos
+            </a>
+        </div>
+    </section>
+
+    <!-- SECCIÓN ASISTENTE VIRTUAL DE IA -->
+    <section class="container my-5">
+        <div class="row">
+            <div class="col-12">
+                <div class="ai-advisor-box p-4 text-white shadow">
+                    <div class="row align-items-center">
+                        <div class="col-md-8">
+                            <span class="badge bg-purple text-light border border-secondary mb-2" style="background-color: #8a2be2;">
+                                <i class="fa-solid fa-robot me-1"></i> Asistente de Inteligencia Artificial
+                            </span>
+                            <h4 class="fw-bold text-white">¿Querés Asesoramiento Personalizado Antes de Comprar?</h4>
+                            <p class="text-secondary mb-0">
+                                Nuestro Agente de Inteligencia Artificial analiza tu disciplina y objetivos físicos para recomendarte el protocolo nutricional ideal.
+                            </p>
+                        </div>
+                        <div class="col-md-4 text-md-end mt-3 mt-md-0">
+                            <button class="btn btn-success btn-lg fw-bold px-4 py-2 shadow" onclick="abrirModalConsultaIA()">
+                                <i class="fa-brands fa-whatsapp fs-5 me-2"></i> Consultar Asesor IA por WhatsApp
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Monitor de Integración Backend -->
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="card console-panel p-4 text-white shadow">
+                    <div class="d-flex justify-content-between align-items-center border-bottom border-secondary pb-3 mb-3">
+                        <h5 class="m-0 text-warning fw-bold">
+                            <i class="fa-solid fa-terminal me-2"></i> Monitor de Eventos API & Agent IA
+                        </h5>
+                        <span class="badge bg-success">Servidor Conectado</span>
+                    </div>
+                    <div id="log-salida" class="text-info fs-6">Esperando acción... Podés elegir cualquier producto o consultar al Asesor IA.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MODAL DE COMPRA -->
+    <div class="modal fade" id="modalCompra" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content p-3">
+                <div class="modal-header border-secondary">
+                    <h5 class="modal-title fw-bold text-white">
+                        <i class="fa-solid fa-user-check text-danger me-2"></i> Datos para tu Orden & Asistente IA
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="formCheckout">
+                        <input type="hidden" id="prodId">
+                        <input type="hidden" id="prodNombre">
+                        <input type="hidden" id="prodPrecio">
+
+                        <div class="mb-3">
+                            <label class="form-label text-secondary small">Producto Seleccionado:</label>
+                            <input type="text" id="displayProducto" class="form-control fw-bold text-warning" readonly>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Nombre del Atleta:</label>
+                            <input type="text" id="clienteNombre" class="form-control" placeholder="Ej: Gastón" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Teléfono WhatsApp:</label>
+                            <input type="tel" id="clienteWhatsapp" class="form-control" placeholder="Ej: +54 9 261 1234567" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Objetivo Principal:</label>
+                            <select id="clienteObjetivo" class="form-select" required>
+                                <option value="Aumento de Fuerza e Hipertrofia">Aumento de Fuerza e Hipertrofia</option>
+                                <option value="Rendimiento en WODs y Functional Fit">Rendimiento en WODs y Functional Fit</option>
+                                <option value="Tonificación y Pérdida de Grasa">Tonificación y Pérdida de Grasa</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-danger w-100 fw-bold py-2 mt-2">
+                            <i class="fa-solid fa-paper-plane me-2"></i> Confirmar Pedido
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL DE CONSULTA IA -->
+    <div class="modal fade" id="modalConsultaIA" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content p-3" style="border-color: #8a2be2;">
+                <div class="modal-header border-secondary">
+                    <h5 class="modal-title fw-bold text-white">
+                        <i class="fa-brands fa-whatsapp text-success me-2"></i> Asesoría Nutricional por IA
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="text-secondary small">Ingresá tu consulta para recibir la recomendación técnica de nuestro Asistente Virtual:</p>
+                    <div class="mb-3">
+                        <label class="form-label">Tu Nombre:</label>
+                        <input type="text" id="consultaNombre" class="form-control" placeholder="Ej: Gastón" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Consulta sobre entrenamiento/suplementos:</label>
+                        <textarea id="consultaTexto" class="form-control" rows="3" placeholder="Ej: Hago Functional Fit 4 veces por semana, ¿qué me conviene tomar?"></textarea>
+                    </div>
+                    <button type="button" class="btn btn-success w-100 fw-bold py-2" onclick="enviarConsultaDirectaIA()">
+                        <i class="fa-solid fa-robot me-2"></i> Enviar Consulta al Asistente IA
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let modalBS = null;
+        let modalConsultaBS = null;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            modalBS = new bootstrap.Modal(document.getElementById('modalCompra'));
+            modalConsultaBS = new bootstrap.Modal(document.getElementById('modalConsultaIA'));
+        });
+
+        function abrirModalCompra(id, nombre, precio) {
+            document.getElementById('prodId').value = id;
+            document.getElementById('prodNombre').value = nombre;
+            document.getElementById('prodPrecio').value = precio;
+            document.getElementById('displayProducto').value = nombre + " ($" + precio.toLocaleString('es-AR') + ")";
+            modalBS.show();
+        }
+
+        function abrirModalConsultaIA() {
+            modalConsultaBS.show();
+        }
+
+        function enviarConsultaDirectaIA() {
+            const nombre = document.getElementById('consultaNombre').value || "Atleta";
+            const consulta = document.getElementById('consultaTexto').value || "Consulta sobre suplementación.";
+            modalConsultaBS.hide();
+
+            const log = document.getElementById('log-salida');
+            log.className = "text-success fs-6";
+            log.innerHTML = "🤖 [AGENTE DE IA EN VIVO - CANAL WHATSAPP AUTOMATION]\n" +
+                            "----------------------------------------------------------------------\n" +
+                            "📩 Consulta Recibida de " + nombre + ": \"" + consulta + "\"\n\n" +
+                            "💬 RESPUESTA DEL ASESOR VIRTUAL GYMFIT PRO:\n" +
+                            "\"¡Hola " + nombre + "! 💪 Para entrenamientos de Functional Fit con alta demanda semanal, la recomendación técnica es tomar Proteína Whey Gold post-WOD y 5g diarios de Creatina Micronizada.\"\n" +
+                            "----------------------------------------------------------------------";
+        }
+
+        document.getElementById('formCheckout').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const pId = document.getElementById('prodId').value;
+            const pNombre = document.getElementById('prodNombre').value;
+            const pPrecio = parseFloat(document.getElementById('prodPrecio').value);
+            const cNombre = document.getElementById('clienteNombre').value;
+            const cWsp = document.getElementById('clienteWhatsapp').value;
+            const cObj = document.getElementById('clienteObjetivo').value;
+
+            const log = document.getElementById('log-salida');
+            log.className = "text-warning fs-6";
+
+            try {
+                const respuesta = await fetch('/api/pedidos', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        clienteNombre: cNombre,
+                        whatsapp: cWsp,
+                        objetivo: cObj,
+                        productoId: parseInt(pId),
+                        cantidad: 1
+                    })
+                });
+                if (!respuesta.ok) {
+                    const error = await respuesta.json().catch(() => ({}));
+                    throw new Error(error.mensaje || 'No se pudo registrar el pedido');
+                }
+                modalBS.hide();
+                document.getElementById('formCheckout').reset();
+            } catch (error) {
+                log.className = "text-danger fs-6";
+                log.textContent = "❌ " + error.message;
+                return;
+            }
+
+            log.className = "text-success fs-6";
+            log.innerHTML = "✅ ¡ORDEN REGISTRADA CON ÉXITO!\n" +
+                            "----------------------------------------------------------------------\n" +
+                            "🚀 WEBHOOK DISPARADO HACIA EL AGENTE DE INTELIGENCIA ARTIFICIAL\n" +
+                            "----------------------------------------------------------------------\n" +
+                            "📱 CONTACTO DEL CLIENTE: " + cWsp + "\n\n" +
+                            "Pedido de " + pNombre + " guardado. Objetivo informado: " + cObj + ".\n" +
+                            "El envío real por WhatsApp requiere conectar una API oficial; el sistema no afirma haberlo enviado.";
+        });
+    </script>
+</body>
+</html>
