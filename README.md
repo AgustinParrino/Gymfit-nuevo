@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # GymFit 1.0.0
 
 Proyecto reorganizado como una aplicación Spring Boot Maven estándar. El frontend y el backend se ejecutan juntos en el puerto `8081`, por lo que no hace falta Live Server ni configurar CORS.
@@ -66,3 +67,24 @@ Si ya tenías una base vieja llamada `gymfit_pro`, no la reutilices directamente
 ## Importante
 
 El bloque llamado “Asistente IA” es actualmente una demostración visual. No envía mensajes reales ni se conecta con WhatsApp. Para producción todavía se necesita autenticación de administradores, una API oficial de WhatsApp, copias de seguridad y pruebas de seguridad.
+=======
+GymFit - Ready project (Thymeleaf + MySQL)
+-----------------------------------------
+
+What it includes:
+- Login (persistent users saved in MySQL)
+- Register (saves user)
+- Index (requires login) with 3 options: Ejercicios, Rutinas, Productos
+- Pages for menu/diet, routines, products, and product detail
+- Seed data: 3 products, 3 diets, 3 routines, 3 meals, 1 example user (agus@example.com / 1234)
+- Images: place your images in src/main/resources/static/img/
+  vegetariano.jpg, omnivoro.jpg, vegano.jpg, agua.jpg, vitamina.jpg, barra.jpg
+
+Run:
+1) Ensure Java 21 is set as Project SDK.
+2) Import as Maven project.
+3) Configure MySQL if needed (port 3307 used by default in application.properties)
+4) Run com.gymfit.GymfitApplication
+5) Open http://localhost:8081/
+# Gymfit-nuevo
+>>>>>>> 9ed5cab6c1352019c8f48483b3392601332af483

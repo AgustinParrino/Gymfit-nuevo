@@ -1,0 +1,22 @@
+<!doctype html >
+<html lang="es" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <title>Menu</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body class="bg">
+<a href="/">← Volver</a>
+<h1 th:text="'Menu: ' + ${type}"></h1>
+<section><h2>Dieta sugerida</h2>
+    <h3 th:text="${diet.title}"></h3>
+    <pre th:text="${diet.content}"></pre>
+</section>
+<section><h2>Rutinas sugeridas</h2>
+    <div class="cards">
+        <div th:each="r: ${routines}" class="card"><h3 th:text="${r.title}"></h3>
+            <p th:text="${r.notes}"></p></div>
+    </div>
+</section>
+</body>
+</html>
