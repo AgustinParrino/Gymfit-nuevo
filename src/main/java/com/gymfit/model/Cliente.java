@@ -3,6 +3,7 @@ package com.gymfit.model;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 
+@Data
 @Entity
 @Table(name = "clientes", indexes = @Index(name = "idx_cliente_whatsapp", columnList = "whatsapp"))
 public class Cliente {
