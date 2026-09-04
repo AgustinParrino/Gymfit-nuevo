@@ -11,7 +11,6 @@ public class Usuario {
     private String email;
     private String password;
 
-    private Persona persona;
     @ManyToOne
     @JoinColumn(name = "persona_id")
     private Persona persona;

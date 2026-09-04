@@ -3,6 +3,9 @@ package com.gymfit.model;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.OneToMany;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Persona {
     private Long id;
     private String dni;
@@ -13,6 +16,6 @@ public class Persona {
 
 
     @OneToMany(mappedBy = "persona ", cascade = CascadeType.ALL)
-    private List<Usuario> usuarios= new arrayList<>();
+    private List<Usuario> usuarios= new ArrayList<>();
 
 }
