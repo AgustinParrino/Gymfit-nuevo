@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GymFit Pro - Catálogo Completo de Productos</title>
+    <!-- Bootstrap 5 & FontAwesome Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --brand-red: #ff3b30;
+            --brand-dark: #0a0a0a;
+            --brand-card: #141414;
+            --brand-gold: #ffcc00;
+        }
+        body {
+            background-color: var(--brand-dark);
+            color: #f0f0f0;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+        .card-catalog-item {
+            background-color: var(--brand-card);
+            border: 1px solid #262626;
+            border-radius: 14px;
+            transition: all 0.3s ease;
+        }
+        .card-catalog-item:hover {
+            border-color: var(--brand-red);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(255, 59, 48, 0.2);
+        }
+        .price-tag {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: #2ed573;
+        }
+        .modal-content {
+            background-color: #121212;
+            border: 1px solid #333;
+            color: #fff;
+        }
+        .form-control, .form-select {
+            background-color: #1e1e1e;
+            border: 1px solid #333;
+            color: #fff;
+        }
+        .form-control:focus, .form-select:focus {
+            background-color: #252525;
+            color: #fff;
+            border-color: var(--brand-red);
+            box-shadow: 0 0 0 0.25rem rgba(255, 59, 48, 0.25);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navegación Superior -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-black py-3 border-bottom border-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand fs-3 fw-bold text-white" href="index.html">
+                <i class="fa-solid fa-dumbbell text-danger me-2"></i>GYMFIT <span class="text-danger">PRO</span>
+            </a>
+            <a href="index.html" class="btn btn-outline-light btn-sm fw-bold">
+                <i class="fa-solid fa-arrow-left me-1"></i> Volver al Inicio
+            </a>
+        </div>
+    </nav>
+
+    <!-- Header y Buscador -->
+    <div class="container my-5">
+        <div class="row align-items-center mb-4">
+            <div class="col-md-6">
+                <h2 class="fw-bold text-white mb-1"><i class="fa-solid fa-store text-danger me-2"></i>Catálogo Oficial de Suplementación</h2>
+                <p class="text-secondary m-0">Inventario completo consultado en tiempo real desde la API Java / MySQL.</p>
+            </div>
+            <div class="col-md-6 mt-3 mt-md-0">
+                <div class="input-group">
+                    <input type="text" id="buscador" class="form-control form-control-lg" placeholder="🔍 Buscar por nombre (ej: Creatina, Whey, Calleras)...">
+                    <button class="btn btn-danger px-4" type="button"><i class="fa-solid fa-magnifying-glass"></i></button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Indicador de Carga / Fuente de datos -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <span id="badgeEstadoCarga" class="badge bg-dark border border-secondary px-3 py-2 text-warning">
+                <i class="fa-solid fa-spinner fa-spin me-1"></i> Conectando con API MySQL...
+            </span>
+        </div>
+
+        <!-- Grilla Dinámica del Catálogo -->
+        <div class="row g-4" id="contenedorProductos">
+            <!-- Inyección dinámica desde la BD -->
+        </div>
+    </div>
+
+    <!-- MODAL DE COMPRA -->
+    <div class="modal fade" id="modalCompra" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content p-3">
+                <div class="modal-header border-secondary">
+                    <h5 class="modal-title fw-bold text-white">
+                        <i class="fa-solid fa-user-check text-danger me-2"></i> Confirmar Pedido & Asesoramiento IA
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="formCheckout">
+                        <input type="hidden" id="prodId">
+                        <input type="hidden" id="prodNombre">
+                        <input type="hidden" id="prodPrecio">
+
+                        <div class="mb-3">
+                            <label class="form-label text-secondary small">Producto Seleccionado:</label>
+                            <input type="text" id="displayProducto" class="form-control fw-bold text-warning" readonly>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Tu Nombre:</label>
+                            <input type="text" id="clienteNombre" class="form-control" placeholder="Ej: Gastón" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Teléfono WhatsApp:</label>
+                            <input type="tel" id="clienteWhatsapp" class="form-control" placeholder="Ej: +54 9 261 1234567" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Objetivo Principal:</label>
+                            <select id="clienteObjetivo" class="form-select" required>
+                                <option value="Aumento de Fuerza e Hipertrofia">Aumento de Fuerza e Hipertrofia</option>
+                                <option value="Rendimiento en WODs y Functional Fit">Rendimiento en WODs y Functional Fit</option>
+                                <option value="Tonificación y Pérdida de Grasa">Tonificación y Pérdida de Grasa</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-danger w-100 fw-bold py-2 mt-2">
+                            <i class="fa-solid fa-paper-plane me-2"></i> Confirmar Pedido
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let modalBS = null;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            modalBS = new bootstrap.Modal(document.getElementById('modalCompra'));
+            cargarProductosDesdeAPI();
+
+            // Buscador en tiempo real
+            document.getElementById('buscador').addEventListener('input', (e) => {
+                const busqueda = e.target.value.toLowerCase();
+                const items = document.querySelectorAll('.item-producto');
+                items.forEach(item => {
+                    const texto = item.textContent.toLowerCase();
+                    item.style.display = texto.includes(busqueda) ? 'block' : 'none';
+                });
+            });
+        });
+
+        async function cargarProductosDesdeAPI() {
+            const contenedor = document.getElementById('contenedorProductos');
+            const badge = document.getElementById('badgeEstadoCarga');
+
+            // Probamos primero con 127.0.0.1 y luego con localhost para asegurar compatibilidad con Live Server
+            const urls = ['/api/productos'];
+
+            for (let url of urls) {
+                try {
+                    const res = await fetch(url);
+                    if (res.ok) {
+                        const data = await res.json();
+                        if (data && data.length > 0) {
+                            badge.className = "badge bg-success px-3 py-2";
+                            badge.innerHTML = "<i class='fa-solid fa-database me-1'></i> " + data.length + " productos cargados";
+                            renderizarProductos(data);
+                            return;
+                        }
+                    }
+                } catch (err) {
+                    console.warn("Intentando conectar a: " + url);
+                }
+            }
+
+            badge.className = "badge bg-danger px-3 py-2";
+            badge.innerHTML = "<i class='fa-solid fa-triangle-exclamation me-1'></i> No se pudo conectar con GymFit. Ejecutá GymFitApplication desde IntelliJ.";
+        }
+
+        function renderizarProductos(lista) {
+            const contenedor = document.getElementById('contenedorProductos');
+            contenedor.innerHTML = "";
+
+            lista.forEach(prod => {
+                const col = document.createElement('div');
+                col.className = "col-lg-4 col-md-6 item-producto";
+                
+                const id = prod.id || 0;
+                const nombre = prod.nombre || "Producto";
+                const cat = prod.categoria || "General";
+                const desc = prod.descripcion || "Descripción del producto oficial.";
+                const stock = prod.stock !== undefined ? prod.stock : 0;
+                
+                const precioCalculado = Number(prod.precio || 0);
+                const precioFormateado = precioCalculado.toLocaleString('es-AR');
+
+                col.innerHTML = `
+                    <div class="card card-catalog-item p-4 h-100 d-flex flex-column justify-content-between">
+                        <div>
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <i class="fa-solid fa-jar text-danger fs-1"></i>
+                                <span class="badge bg-danger fs-6">${cat}</span>
+                            </div>
+                            <small class="text-secondary d-block mb-1"><i class="fa-solid fa-boxes-stacked me-1"></i> Stock disponible: ${stock} un.</small>
+                            <h4 class="fw-bold text-white mb-2">${nombre}</h4>
+                            <p class="text-secondary small mb-3">${desc}</p>
+                        </div>
+                        <div>
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <span class="text-secondary small">Precio Oficial:</span>
+                                <span class="price-tag">$${precioFormateado}</span>
+                            </div>
+                            <button class="btn btn-danger w-100 fw-bold py-2" onclick="abrirModalCompra(${id}, '${nombre.replace(/'/g, "\\'")}', ${precioCalculado})">
+                                <i class="fa-solid fa-cart-shopping me-1"></i> Comprar
+                            </button>
+                        </div>
+                    </div>
+                `;
+                contenedor.appendChild(col);
+            });
+        }
+
+        function abrirModalCompra(id, nombre, precio) {
+            document.getElementById('prodId').value = id;
+            document.getElementById('prodNombre').value = nombre;
+            document.getElementById('prodPrecio').value = precio;
+            document.getElementById('displayProducto').value = nombre + " ($" + precio.toLocaleString('es-AR') + ")";
+            modalBS.show();
+        }
+
+        document.getElementById('formCheckout').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const pId = document.getElementById('prodId').value;
+            const pNombre = document.getElementById('prodNombre').value;
+            const pPrecio = parseFloat(document.getElementById('prodPrecio').value);
+            const cNombre = document.getElementById('clienteNombre').value;
+            const cWsp = document.getElementById('clienteWhatsapp').value;
+            const cObj = document.getElementById('clienteObjetivo').value;
+
+            try {
+                const respuesta = await fetch('/api/pedidos', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        clienteNombre: cNombre,
+                        whatsapp: cWsp,
+                        objetivo: cObj,
+                        productoId: parseInt(pId),
+                        cantidad: 1
+                    })
+                });
+                if (!respuesta.ok) {
+                    const error = await respuesta.json().catch(() => ({}));
+                    throw new Error(error.mensaje || 'No se pudo registrar el pedido');
+                }
+                modalBS.hide();
+                document.getElementById('formCheckout').reset();
+                mostrarMensaje("Pedido confirmado", "Se registró " + pNombre + " para " + cNombre + ".", "success");
+                await cargarProductosDesdeAPI();
+            } catch (err) {
+                mostrarMensaje("No se pudo confirmar", err.message, "danger");
+            }
+        });
+
+        function mostrarMensaje(titulo, mensaje, tipo) {
+            document.getElementById('mensajeGymFit')?.remove();
+            const caja = document.createElement('div');
+            caja.id = 'mensajeGymFit';
+            caja.className = `alert alert-${tipo} position-fixed top-0 start-50 translate-middle-x mt-4 shadow`;
+            caja.style.zIndex = '2000';
+            caja.innerHTML = `<strong>${titulo}</strong><div>${mensaje}</div>`;
+            document.body.appendChild(caja);
+            setTimeout(() => caja.remove(), 4500);
+        }
+    </script>
+</body>
+</html>

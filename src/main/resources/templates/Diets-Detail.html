@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title th:text="${titulo}">Dieta</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body class="bg">
+<div class="container" style="text-align:center; padding:2rem;">
+    <a href="/diets">← Todas las dietas</a>
+    <h1 th:text="${titulo}" style="color:#ff4757; margin:2rem 0; font-size:3rem;"></h1>
+    <p style="font-size:1.4rem; margin-bottom:3rem;" th:text="${descripcion}"></p>
+
+    <div class="cards">
+        <div th:each="meal : ${meals}" class="card"
+             style="background:rgba(255,71,87,0.15); border:2px solid #ff4757;">
+            <p style="font-size:1.5rem; padding:2rem; margin:0;" th:text="${meal}"></p>
+        </div>
+    </div>
+</div>
+</body>
+</html>

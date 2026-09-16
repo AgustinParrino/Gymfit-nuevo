@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Gymfit · Ingreso</title>
+  <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+  />
+  <link
+          rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
+  />
+  <link rel="stylesheet" href="../assets/css/style.css" />
+</head>
+<body>
+<main class="min-vh-100 d-flex align-items-center p-3">
+  <div class="container">
+    <div class="row g-4 align-items-center">
+      <section class="col-lg-7 d-none d-lg-block">
+        <div class="eyebrow mb-3"></div>
+        <h1 class="display-title">
+          Tu negocio fluye.<br /><em>Vos lo dirigís.</em>
+        </h1>
+        <p class="lead-muted fs-5 mt-4 col-9">
+          Controlá Todo
+        </p>
+        <a href="carta.html" class="btn btn-outline-light mt-3"
+        ><i class="bi bi-eye me-2"></i>Ver carta como cliente</a
+        >
+      </section>
+      <section class="col-lg-5">
+        <div class="glass-card p-4 p-md-5">
+          <div class="d-flex align-items-center gap-3 mb-4">
+           //pongan una imagen de fondo
+            <div>
+              <div class="brand-name">GES<span>TIO</span></div>
+              <small class="text-muted">Acceso al panel</small>
+            </div>
+          </div>
+          <h2 class="section-title">Bienvenido</h2>
+          <p class="text-muted mb-4">
+            Ingresá con tu cuenta de creador o empleado.
+          </p>
+          <form id="formLogin">
+            <div class="mb-3">
+              <label class="form-label">Correo o usuario</label
+              ><input
+                    type="text"
+                    class="form-control"
+                    id="emailLogin"
+                    autocomplete="username"
+                    required
+            />
+            </div>
+            <div class="mb-4">
+              <label class="form-label">Contraseña</label
+              ><input
+                    type="password"
+                    class="form-control"
+                    id="passLogin"
+                    autocomplete="current-password"
+                    required
+            />
+            </div>
+            <button class="btn btn-neon w-100" type="submit">
+              Ingresar al sistema
+            </button>
+            <div class="text-center mt-4 small">
+              <span class="text-muted">¿Primera vez?</span>
+              <a href="registro.html" class="text-neon">Crear negocio</a>
+            </div>
+            <div class="text-center mt-2 small">
+              <a href="recuperar.html">¿Sos administrador y olvidaste tu contraseña?</a>
+            </div>
+          </form>
+        </div>
+      </section>
+    </div>
+  </div>
+</main>
+<div class="toast-zone" id="toast-zone"></div>
+<script src="../assets/js/main.js"></script>
+<script>
+  document
+    .getElementById("formLogin")
+    .addEventListener("submit", async (e) => {
+      e.preventDefault();
+      try {
+        const s = await api("/usuarios/login", {
+          method: "POST",
+          body: JSON.stringify({
+            email: emailLogin.value,
+            password: passLogin.value,
+            codigoNegocio: codigoNegocioLogin.value.trim() || null,
+          }),
+        });
+        localStorage.setItem("usuarioId", s.usuarioId);
+        localStorage.setItem("empresaId", s.empresaId);
+        localStorage.setItem("rolUsuario", s.rol);
+        localStorage.setItem("nombreUsuario", s.nombre);
+        location.href = inicioSegunRol(s.rol);
+      } catch (error) {
+        mostrarError(error);
+      }
+    });
+</script>
+</body>
+</html>

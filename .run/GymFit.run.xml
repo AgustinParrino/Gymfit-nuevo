@@ -1,0 +1,7 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="GymFit" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+    <module name="gymfit" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="com.gymfit.GymFitApplication" />
+    <method v="2"><option name="Make" enabled="true" /></method>
+  </configuration>
+</component>

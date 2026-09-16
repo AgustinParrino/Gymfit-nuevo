@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>GymFit · Administración</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <style>
+    body{background:#090909;color:#eee}.card,.modal-content{background:#151515;color:#eee;border:1px solid #2c2c2c}
+    .form-control,.form-select{background:#202020;color:#fff;border-color:#393939}.form-control:focus{background:#252525;color:#fff;border-color:#dc3545}
+    .table{--bs-table-bg:transparent;--bs-table-color:#eee;--bs-table-border-color:#333}.badge-pendiente{background:#ffc107;color:#111}
+  </style>
+</head>
+<body>
+<nav class="navbar navbar-dark bg-black border-bottom border-secondary"><div class="container py-2">
+  <a class="navbar-brand fw-bold" href="/"><i class="fa-solid fa-dumbbell text-danger me-2"></i>GYMFIT PRO</a>
+  <div><a class="btn btn-outline-light btn-sm" href="catalogo.html">Ver catálogo</a></div>
+</div></nav>
+<main class="container py-5">
+  <div class="d-flex justify-content-between align-items-center mb-4"><div><small class="text-danger fw-bold">GESTIÓN</small><h1>Administración</h1></div><button class="btn btn-danger" onclick="nuevoProducto()">Nuevo producto</button></div>
+  <section class="card p-4 mb-4"><h2 class="h4 mb-3">Productos y stock</h2><div class="table-responsive"><table class="table align-middle"><thead><tr><th>Producto</th><th>Categoría</th><th>Precio</th><th>Stock</th><th></th></tr></thead><tbody id="tablaProductos"></tbody></table></div></section>
+  <section class="card p-4"><div class="d-flex justify-content-between"><h2 class="h4">Pedidos recientes</h2><button class="btn btn-sm btn-outline-light" onclick="cargarTodo()">Actualizar</button></div><div class="table-responsive mt-3"><table class="table align-middle"><thead><tr><th>Fecha</th><th>Cliente</th><th>Producto</th><th>Total</th><th>Estado</th><th></th></tr></thead><tbody id="tablaPedidos"></tbody></table></div></section>
+</main>
+
+<div class="modal fade" id="modalProducto"><div class="modal-dialog"><form id="formProducto" class="modal-content"><div class="modal-header"><h2 class="h5 modal-title">Producto</h2><button class="btn-close btn-close-white" data-bs-dismiss="modal"></button></div><div class="modal-body">
+  <input id="productoId" type="hidden"><label class="form-label">Nombre</label><input id="productoNombre" class="form-control mb-3" required>
+  <label class="form-label">Descripción</label><textarea id="productoDescripcion" class="form-control mb-3"></textarea>
+  <div class="row"><div class="col"><label class="form-label">Categoría</label><input id="productoCategoria" class="form-control" required></div><div class="col"><label class="form-label">Stock</label><input id="productoStock" type="number" min="0" class="form-control" required></div></div>
+  <label class="form-label mt-3">Precio</label><input id="productoPrecio" type="number" min="0.01" step="0.01" class="form-control" required>
+</div><div class="modal-footer"><button type="button" class="btn btn-outline-light" data-bs-dismiss="modal">Cancelar</button><button class="btn btn-danger">Guardar</button></div></form></div></div>
+
+<div id="avisos" class="position-fixed top-0 start-50 translate-middle-x mt-3" style="z-index:2000"></div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+let productos=[], modal;
+document.addEventListener('DOMContentLoaded',()=>{modal=new bootstrap.Modal('#modalProducto');document.getElementById('formProducto').addEventListener('submit',guardarProducto);cargarTodo()});
+const dinero=v=>Number(v||0).toLocaleString('es-AR',{style:'currency',currency:'ARS'});
+const seguro=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+async function api(url,opt={}){const r=await fetch(url,opt);if(!r.ok){const e=await r.json().catch(()=>({}));throw new Error(e.mensaje||'No se pudo completar')}return r.status===204?null:r.json()}
+async function cargarTodo(){try{const datos=await Promise.all([api('/api/productos'),api('/api/pedidos')]);productos=datos[0];tablaProductos.innerHTML=productos.map(p=>`<tr><td><strong>${seguro(p.nombre)}</strong><br><small>${seguro(p.descripcion)}</small></td><td>${seguro(p.categoria)}</td><td>${dinero(p.precio)}</td><td>${p.stock}</td><td class="text-end"><button class="btn btn-sm btn-outline-light" onclick="editarProducto(${p.id})">Editar</button> <button class="btn btn-sm btn-outline-danger" onclick="eliminarProducto(${p.id})">Quitar</button></td></tr>`).join('')||'<tr><td colspan="5">Sin productos.</td></tr>';tablaPedidos.innerHTML=datos[1].map(p=>`<tr><td>${new Date(p.fecha).toLocaleString('es-AR')}</td><td>${seguro(p.cliente.nombre)}<br><small>${seguro(p.cliente.whatsapp)}</small></td><td>${p.cantidad} × ${seguro(p.producto.nombre)}</td><td>${dinero(p.total)}</td><td><span class="badge text-bg-secondary">${p.estado}</span></td><td class="text-end">${p.estado==='PENDIENTE'?`<button class="btn btn-sm btn-success" onclick="estado(${p.id},'CONFIRMADO')">Confirmar</button> <button class="btn btn-sm btn-outline-danger" onclick="cancelar(${p.id})">Cancelar</button>`:p.estado==='CONFIRMADO'?`<button class="btn btn-sm btn-primary" onclick="estado(${p.id},'ENTREGADO')">Entregar</button>`:''}</td></tr>`).join('')||'<tr><td colspan="6">Sin pedidos.</td></tr>'}catch(e){aviso(e.message,'danger')}}
+function nuevoProducto(){formProducto.reset();productoId.value='';modal.show()}
+function editarProducto(id){const p=productos.find(x=>x.id===id);productoId.value=p.id;productoNombre.value=p.nombre;productoDescripcion.value=p.descripcion||'';productoCategoria.value=p.categoria;productoStock.value=p.stock;productoPrecio.value=p.precio;modal.show()}
+async function guardarProducto(e){e.preventDefault();const id=productoId.value,body={nombre:productoNombre.value,descripcion:productoDescripcion.value,categoria:productoCategoria.value,stock:Number(productoStock.value),precio:Number(productoPrecio.value)};try{await api(id?`/api/productos/${id}`:'/api/productos',{method:id?'PUT':'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});modal.hide();aviso('Producto guardado','success');cargarTodo()}catch(error){aviso(error.message,'danger')}}
+async function eliminarProducto(id){if(!window.confirm('¿Quitar el producto del catálogo?'))return;try{await api(`/api/productos/${id}`,{method:'DELETE'});cargarTodo()}catch(e){aviso(e.message,'danger')}}
+async function estado(id,valor){try{await api(`/api/pedidos/${id}/estado?estado=${valor}`,{method:'PATCH'});cargarTodo()}catch(e){aviso(e.message,'danger')}}
+async function cancelar(id){if(!window.confirm('¿Cancelar el pedido y devolver el stock?'))return;try{await api(`/api/pedidos/${id}/cancelar`,{method:'POST'});cargarTodo()}catch(e){aviso(e.message,'danger')}}
+function aviso(m,t){avisos.innerHTML=`<div class="alert alert-${t} shadow">${seguro(m)}</div>`;setTimeout(()=>avisos.innerHTML='',3500)}
+</script>
+</body></html>
