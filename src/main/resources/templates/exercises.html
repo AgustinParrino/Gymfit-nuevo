@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>GymFit Pro - Lista de Ejercicios</title>
+    <style>
+        body {
+            background-color: #121212;
+            color: #e0e0e0;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            color: #00ffcc;
+            text-align: center;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #1e1e1e;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #333;
+        }
+        th {
+            background-color: #252525;
+            color: #00ffcc;
+        }
+        .btn-neon {
+            background-color: transparent;
+            color: #00ffcc;
+            border: 2px solid #00ffcc;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 15px;
+        }
+        .btn-neon:hover {
+            background-color: #00ffcc;
+            color: #121212;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Gestión de Ejercicios - GymFit Pro</h1>
+        <p>Listado oficial de ejercicios disponibles para las rutinas de entrenamiento.</p>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre del Ejercicio</th>
+                    <th>Grupo Muscular</th>
+                    <th>Dificultad</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Esto se conectará con el Backend usando Thymeleaf -->
+                <tr th:each="exercise : ${exercises}">
+                    <td th:text="${exercise.id}">1</td>
+                    <td th:text="${exercise.name}">Press de Banca</td>
+                    <td th:text="${exercise.muscleGroup}">Pecho</td>
+                    <td th:text="${exercise.difficulty}">Intermedio</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <a href="/" class="btn-neon">Volver al Inicio</a>
+    </div>
+
+</body>
+</html>
