@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout :: head('Dietas')}"></head>
+<body class="app-layout">
+
+<!-- Incluye el sidebar lateral -->
+<aside th:replace="~{layout :: sidebar}"></aside>
+
+<div class="app-content">
+    <!-- Barra superior -->
+    <header th:replace="~{layout :: topbar('Planes Nutricionales')}"></header>
+
+    <main class="main-body">
+        <div th:replace="~{layout :: alerts}"></div>
+
+        <div class="toolbar">
+            <div>
+                <h2>Planes disponibles</h2>
+                <p class="muted">Seleccioná un plan alimenticio adecuado a tu objetivo.</p>
+            </div>
+        </div>
+
+        <div class="grid cards-grid">
+            <article th:each="diet : ${diets}" class="card">
+                <div class="card-header">
+                    <span class="badge" th:text="${diet.type}">Omnívora</span>
+                </div>
+                <h3 th:text="${diet.name}">Plan Hipertrofia</h3>
+                <p class="muted" style="margin: 0.5rem 0 1rem 0;">
+                    <strong>Objetivo:</strong> <span th:text="${diet.goal}">Ganancia</span>
+                </p>
+                <p th:text="${diet.description}" style="line-height: 1.4; margin-bottom: 1.5rem;"></p>
+                <div style="margin-top: auto;">
+                    <a th:href="@{'/diets/' + ${diet.id}}" class="button primary block">Ver Menú Completo →</a>
+                </div>
+            </article>
+        </div>
+    </main>
+</div>
+
+</body>
+</html>
