@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout :: head('Guardar plan nutricional')}"></head>
+<body>
+<aside th:replace="~{layout :: sidebar}"></aside>
+
+<main>
+    <header th:replace="~{layout :: topbar('Guardar plan nutricional')}"></header>
+    <div th:replace="~{layout :: alerts}"></div>
+
+    <a class="back" th:href="@{/diets}">Volver a dietas</a>
+
+    <form class="panel" th:action="@{/diets/save}" method="post">
+        <input type="hidden" name="id" th:if="${diet.id != null}" th:value="${diet.id}">
+        <h2 th:text="${diet.id == null ? 'Nuevo plan nutricional' : 'Editar plan nutricional'}"></h2>
+
+        <div class="form-grid">
+            <label>Nombre del plan
+                <input name="name" required maxlength="100" th:value="${diet.name}" placeholder="Ej.: Plan Hipertrofia">
+            </label>
+            <label>Objetivo
+                <input name="goal" required maxlength="300" th:value="${diet.goal}" placeholder="Ej.: Ganancia muscular magra">
+            </label>
+            <label>Tipo de alimentación
+                <input name="type" required maxlength="50" th:value="${diet.type}" placeholder="Ej.: Omnívora, Vegana, Cetogénica">
+            </label>
+        </div>
+
+        <label style="margin-top: 1rem;">Descripción general
+            <textarea name="description" rows="3" required maxlength="2000" th:text="${diet.description}" placeholder="Detalles, enfoque de macronutrientes o recomendaciones..."></textarea>
+        </label>
+
+        <label style="margin-top: 1rem;">Comidas diarias (separadas por punto y coma ;)
+            <textarea name="meals" rows="4" required maxlength="4000" th:text="${diet.meals}" placeholder="Desayuno: Café con avena; Almuerzo: Pechuga con arroz; Merienda: Fruta y frutos secos; Cena: Ensalada completa"></textarea>
+            <small class="muted">Ingresá cada comida separada con un punto y coma (;) para que se muestre como un bloque individual.</small>
+        </label>
+
+        <div class="card-actions" style="margin-top: 1.5rem;">
+            <button class="button">Guardar plan</button>
+            <a class="button secondary" th:href="@{/diets}">Cancelar</a>
+        </div>
+    </form>
+</main>
+</body>
+</html>

@@ -80,6 +80,57 @@ public class GymController {
         return "diet-detail";
     }
 
+    @GetMapping("/diets/new")
+    String newDiet(Model m) {
+        m.addAttribute("diet", new Diet());
+        m.addAttribute("page", "diets");
+        return "diet-form";
+    }
+
+    @GetMapping("/diets/{id}/edit")
+    String editDiet(@PathVariable Long id, Model m) {
+        Diet d = diets.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        m.addAttribute("diet", d);
+        m.addAttribute("page", "diets");
+        return "diet-form";
+    }
+
+    @PostMapping("/diets/save")
+    @Transactional
+    String saveDiet(@RequestParam(required = false) Long id,
+                    @RequestParam String name,
+                    @RequestParam String goal,
+                    @RequestParam String type,
+                    @RequestParam String description,
+                    @RequestParam String meals,
+                    RedirectAttributes a) {
+        Diet d = id == null ? new Diet() : diets.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        d.name = text(name, 100);
+        d.goal = text(goal, 300);
+        d.type = text(type, 50);
+        d.description = text(description, 2000);
+        d.meals = text(meals, 4000);
+        diets.save(d);
+        a.addFlashAttribute("success", "Plan nutricional guardado.");
+        return "redirect:/diets";
+    }
+
+    @PostMapping("/diets/{id}/delete")
+    @Transactional
+    String deleteDiet(@PathVariable Long id, RedirectAttributes a) {
+        Diet d = diets.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        // Desvincular de las rutinas que la usen antes de borrar para no romper integridad
+        routines.findAll().stream()
+                .filter(r -> r.diet != null && r.diet.id.equals(id))
+                .forEach(r -> {
+                    r.diet = null;
+                    routines.save(r);
+                });
+        diets.delete(d);
+        a.addFlashAttribute("success", "Plan eliminado.");
+        return "redirect:/diets";
+    }
+
     // --- EJERCICIOS ---
     @GetMapping("/exercises")
     String exerciseList(@RequestParam(defaultValue = "") String q, @RequestParam(defaultValue = "") String muscle, Model m) {
@@ -148,6 +199,7 @@ public class GymController {
     String newRoutine(Model m) {
         m.addAttribute("routine", new Routine());
         m.addAttribute("exercises", exercises.findAll());
+        m.addAttribute("diets",  diets.findAll());
         m.addAttribute("page", "routines");
         return "routine-form";
     }
@@ -164,6 +216,7 @@ public class GymController {
     String editRoutine(@PathVariable Long id, Model m) {
         m.addAttribute("routine", routine(id));
         m.addAttribute("exercises", exercises.findAll());
+        m.addAttribute("diets",  diets.findAll());
         m.addAttribute("page", "routines");
         return "routine-form";
     }
@@ -172,6 +225,7 @@ public class GymController {
     @Transactional
     String saveRoutine(@RequestParam(required = false) Long id, @RequestParam String name,
                        @RequestParam String goal, @RequestParam String day, @RequestParam String difficulty,
+                       @RequestParam(required = false) Long dietId,
                        @RequestParam List<Long> exerciseId, @RequestParam List<Integer> sets,
                        @RequestParam List<Integer> reps, @RequestParam List<Integer> rest, RedirectAttributes a) {
         if (exerciseId.isEmpty() || exerciseId.size() > 30 || sets.size() != exerciseId.size()
@@ -182,6 +236,11 @@ public class GymController {
         r.goal = text(goal, 100);
         r.day = choice(day, DAYS);
         r.difficulty = choice(difficulty, LEVELS);
+        if (dietId != null) {
+            r.diet = diets.findById(dietId).orElse(null);
+        } else {
+            r.diet = null;
+        }
         List<RoutineItem> items = new ArrayList<>();
         for (int i = 0; i < exerciseId.size(); i++) {
             RoutineItem t = new RoutineItem();
