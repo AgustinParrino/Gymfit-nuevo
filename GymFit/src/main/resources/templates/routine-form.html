@@ -1,1 +1,108 @@
-<!DOCTYPE html><html lang="es" xmlns:th="http://www.thymeleaf.org"><head th:replace="~{layout :: head('Guardar rutina')}"></head><body><aside th:replace="~{layout :: sidebar}"></aside><main><header th:replace="~{layout :: topbar('Guardar rutina')}"></header><div th:replace="~{layout :: alerts}"></div><a class="back" th:href="@{/routines}">Volver a rutinas</a><form class="panel" th:action="@{/routines/save}" method="post" id="routine-form"><input type="hidden" name="id" th:if="${routine.id != null}" th:value="${routine.id}"><h2 th:text="${routine.id == null ? 'Nueva rutina' : 'Editar rutina'}"></h2><div class="form-grid"><label>Nombre<input name="name" required maxlength="100" th:value="${routine.name}" placeholder="Ej.: Fuerza de tren superior"></label><label>Objetivo<input name="goal" required maxlength="100" th:value="${routine.goal}" placeholder="Ej.: Fuerza general"></label><label>Día<select name="day"><option th:each="g : ${days}" th:value="${g}" th:text="${g}" th:selected="${g == routine.day}"></option></select></label><label>Dificultad<select name="difficulty"><option th:each="g : ${levels}" th:value="${g}" th:text="${g}" th:selected="${g == routine.difficulty}"></option></select></label></div><div class="section-heading"><h2>Secuencia de ejercicios</h2><button type="button" id="add-row" class="button secondary" th:disabled="${exercises.empty}">+ Agregar ejercicio</button></div><p class="muted">Las filas definen el orden. En ejercicios isométricos, indicá segundos en lugar de repeticiones.</p><div id="exercise-rows"><th:block th:each="t : ${routine.items}"><div class="builder-row"><label>Ejercicio<select name="exerciseId" required><option value="">Seleccionar…<option th:each="e : ${exercises}" th:value="${e.id}" th:text="${e.name}" th:selected="${t != null and t.exercise.id == e.id}"></option></select></label><label>Series<input name="sets" type="number" min="1" max="20" required th:value="${t != null ? t.sets : 3}"></label><label>Reps / seg.<input name="reps" type="number" min="1" max="300" required th:value="${t != null ? t.reps : 10}"></label><label>Descanso (s)<input name="rest" type="number" min="0" max="600" required th:value="${t != null ? t.restSeconds : 60}"></label><button type="button" class="icon-button remove-row" aria-label="Quitar ejercicio">×</button></div></th:block></div><template id="exercise-template"><th:block th:with="t=${null}"><div class="builder-row"><label>Ejercicio<select name="exerciseId" required><option value="">Seleccionar…<option th:each="e : ${exercises}" th:value="${e.id}" th:text="${e.name}" th:selected="${t != null and t.exercise.id == e.id}"></option></select></label><label>Series<input name="sets" type="number" min="1" max="20" required th:value="${t != null ? t.sets : 3}"></label><label>Reps / seg.<input name="reps" type="number" min="1" max="300" required th:value="${t != null ? t.reps : 10}"></label><label>Descanso (s)<input name="rest" type="number" min="0" max="600" required th:value="${t != null ? t.restSeconds : 60}"></label><button type="button" class="icon-button remove-row" aria-label="Quitar ejercicio">×</button></div></th:block></template><p th:if="${exercises.empty}" class="alert error">Agregá al menos un ejercicio al catálogo antes de crear una rutina.</p><p id="builder-error" class="alert error" hidden>Agregá al menos un ejercicio a la rutina.</p><div class="card-actions"><button class="button" th:disabled="${exercises.empty}">Guardar rutina</button><a class="button secondary" th:href="@{/routines}">Cancelar</a></div></form></main></body></html>
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout :: head('Guardar rutina')}"></head>
+<body>
+<aside th:replace="~{layout :: sidebar}"></aside>
+
+<main>
+    <header th:replace="~{layout :: topbar('Guardar rutina')}"></header>
+    <div th:replace="~{layout :: alerts}"></div>
+
+    <a class="back" th:href="@{/routines}">Volver a rutinas</a>
+
+    <form class="panel" th:action="@{/routines/save}" method="post" id="routine-form">
+        <input type="hidden" name="id" th:if="${routine.id != null}" th:value="${routine.id}">
+        <h2 th:text="${routine.id == null ? 'Nueva rutina' : 'Editar rutina'}"></h2>
+
+        <div class="form-grid">
+            <label>Nombre
+                <input name="name" required maxlength="100" th:value="${routine.name}" placeholder="Ej.: Fuerza de tren superior">
+            </label>
+            <label>Objetivo
+                <input name="goal" required maxlength="100" th:value="${routine.goal}" placeholder="Ej.: Fuerza general">
+            </label>
+            <label>Día
+                <select name="day">
+                    <option th:each="g : ${days}" th:value="${g}" th:text="${g}" th:selected="${g == routine.day}"></option>
+                </select>
+            </label>
+            <label>Dificultad
+                <select name="difficulty">
+                    <option th:each="g : ${levels}" th:value="${g}" th:text="${g}" th:selected="${g == routine.difficulty}"></option>
+                </select>
+            </label>
+            <label style="grid-column: 1 / -1;">Plan nutricional sugerido (opcional)
+                <select name="dietId">
+                    <option value="">Sin plan asignado</option>
+                    <option th:each="d : ${diets}"
+                            th:value="${d.id}"
+                            th:text="${d.name + ' · ' + d.type + ' (' + d.goal + ')'}"
+                            th:selected="${routine.diet != null and routine.diet.id == d.id}">
+                    </option>
+                </select>
+            </label>
+        </div>
+
+        <div class="section-heading">
+            <h2>Secuencia de ejercicios</h2>
+            <button type="button" id="add-row" class="button secondary" th:disabled="${exercises.empty}">+ Agregar ejercicio</button>
+        </div>
+        <p class="muted">Las filas definen el orden. En ejercicios isométricos, indicá segundos en lugar de repeticiones.</p>
+
+        <div id="exercise-rows">
+            <th:block th:each="t : ${routine.items}">
+                <div class="builder-row">
+                    <label>Ejercicio
+                        <select name="exerciseId" required>
+                            <option value="">Seleccionar…</option>
+                            <option th:each="e : ${exercises}" th:value="${e.id}" th:text="${e.name}" th:selected="${t != null and t.exercise.id == e.id}"></option>
+                        </select>
+                    </label>
+                    <label>Series
+                        <input name="sets" type="number" min="1" max="20" required th:value="${t != null ? t.sets : 3}">
+                    </label>
+                    <label>Reps / seg.
+                        <input name="reps" type="number" min="1" max="300" required th:value="${t != null ? t.reps : 10}">
+                    </label>
+                    <label>Descanso (s)
+                        <input name="rest" type="number" min="0" max="600" required th:value="${t != null ? t.restSeconds : 60}">
+                    </label>
+                    <button type="button" class="icon-button remove-row" aria-label="Quitar ejercicio">×</button>
+                </div>
+            </th:block>
+        </div>
+
+        <template id="exercise-template">
+            <th:block th:with="t=${null}">
+                <div class="builder-row">
+                    <label>Ejercicio
+                        <select name="exerciseId" required>
+                            <option value="">Seleccionar…</option>
+                            <option th:each="e : ${exercises}" th:value="${e.id}" th:text="${e.name}" th:selected="${t != null and t.exercise.id == e.id}"></option>
+                        </select>
+                    </label>
+                    <label>Series
+                        <input name="sets" type="number" min="1" max="20" required th:value="${t != null ? t.sets : 3}">
+                    </label>
+                    <label>Reps / seg.
+                        <input name="reps" type="number" min="1" max="300" required th:value="${t != null ? t.reps : 10}">
+                    </label>
+                    <label>Descanso (s)
+                        <input name="rest" type="number" min="0" max="600" required th:value="${t != null ? t.restSeconds : 60}">
+                    </label>
+                    <button type="button" class="icon-button remove-row" aria-label="Quitar ejercicio">×</button>
+                </div>
+            </th:block>
+        </template>
+
+        <p th:if="${exercises.empty}" class="alert error">Agregá al menos un ejercicio al catálogo antes de crear una rutina.</p>
+        <p id="builder-error" class="alert error" hidden>Agregá al menos un ejercicio a la rutina.</p>
+
+        <div class="card-actions">
+            <button class="button" th:disabled="${exercises.empty}">Guardar rutina</button>
+            <a class="button secondary" th:href="@{/routines}">Cancelar</a>
+        </div>
+    </form>
+</main>
+</body>
+</html>

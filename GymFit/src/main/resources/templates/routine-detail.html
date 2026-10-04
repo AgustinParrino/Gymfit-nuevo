@@ -1,1 +1,78 @@
-<!DOCTYPE html><html lang="es" xmlns:th="http://www.thymeleaf.org"><head th:replace="~{layout :: head('Detalle de rutina')}"></head><body><aside th:replace="~{layout :: sidebar}"></aside><main><header th:replace="~{layout :: topbar('Detalle de rutina')}"></header><div th:replace="~{layout :: alerts}"></div><a class="back" th:href="@{/routines}">Volver a rutinas</a><section class="panel"><div class="section-heading"><div><p class="eyebrow" th:text="${routine.day} + ' · ' + ${routine.difficulty}"></p><h2 class="large" th:text="${routine.name}"></h2><p th:text="${routine.goal}"></p></div><a class="button secondary" th:href="@{/routines/{id}/edit(id=${routine.id})}">Editar rutina</a></div><div class="table-scroll"><table><thead><tr><th>Ejercicio</th><th>Grupo muscular</th><th>Series</th><th>Reps / seg.</th><th>Descanso</th></tr></thead><tbody><tr th:each="t : ${routine.items}"><td><strong th:text="${t.exercise.name}"></strong><small th:text="${t.exercise.description}"></small></td><td th:text="${t.exercise.muscle}"></td><td th:text="${t.sets}"></td><td th:text="${t.reps}"></td><td th:text="${t.restSeconds} + ' s'"></td></tr></tbody></table></div></section><form class="panel form-panel" th:action="@{/routines/{id}/log(id=${routine.id})}" method="post"><h2>Registrar entrenamiento</h2><p class="muted">Guardá la sesión realizada en tu historial.</p><div class="form-grid"><label>Fecha<input type="date" name="date" required th:value="${today}" th:max="${today}"></label><label>Duración (minutos)<input type="number" name="minutes" min="1" max="600" required placeholder="45"></label></div><label>Notas de la sesión<textarea name="notes" rows="3" maxlength="1000" placeholder="Cargas utilizadas, sensaciones o ajustes…"></textarea></label><button class="button">Registrar sesión</button></form></main></body></html>
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout :: head('Detalle de rutina')}"></head>
+<body>
+<aside th:replace="~{layout :: sidebar}"></aside>
+
+<main>
+    <header th:replace="~{layout :: topbar('Detalle de rutina')}"></header>
+    <div th:replace="~{layout :: alerts}"></div>
+
+    <a class="back" th:href="@{/routines}">Volver a rutinas</a>
+
+    <section class="panel">
+        <div class="section-heading">
+            <div>
+                <p class="eyebrow" th:text="${routine.day} + ' · ' + ${routine.difficulty}"></p>
+                <h2 class="large" th:text="${routine.name}"></h2>
+                <p th:text="${routine.goal}"></p>
+            </div>
+            <a class="button secondary" th:href="@{/routines/{id}/edit(id=${routine.id})}">Editar rutina</a>
+        </div>
+
+        <div class="table-scroll">
+            <table>
+                <thead>
+                <tr>
+                    <th>Ejercicio</th>
+                    <th>Grupo muscular</th>
+                    <th>Series</th>
+                    <th>Reps / seg.</th>
+                    <th>Descanso</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="t : ${routine.items}">
+                    <td>
+                        <strong th:text="${t.exercise.name}"></strong>
+                        <small th:text="${t.exercise.description}"></small>
+                    </td>
+                    <td th:text="${t.exercise.muscle}"></td>
+                    <td th:text="${t.sets}"></td>
+                    <td th:text="${t.reps}"></td>
+                    <td th:text="${t.restSeconds} + ' s'"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- TARJETA DEL PLAN NUTRICIONAL VINCULADO (SI TIENE) -->
+    <section th:if="${routine.diet != null}" class="panel" style="display: flex; justify-content: space-between; align-items: center; gap: 1rem; border-left: 4px solid var(--accent, #70ff00);">
+        <div>
+            <p class="eyebrow" style="margin: 0 0 0.25rem 0;">PLAN NUTRICIONAL RECOMENDADO</p>
+            <h3 style="margin: 0 0 0.25rem 0;" th:text="${routine.diet.name}"></h3>
+            <p class="muted" style="margin: 0;" th:text="${routine.diet.type} + ' · ' + ${routine.diet.goal}"></p>
+        </div>
+        <a class="button secondary" th:href="@{'/diets/' + ${routine.diet.id}}">Ver menú completo →</a>
+    </section>
+
+    <form class="panel form-panel" th:action="@{/routines/{id}/log(id=${routine.id})}" method="post">
+        <h2>Registrar entrenamiento</h2>
+        <p class="muted">Guardá la sesión realizada en tu historial.</p>
+        <div class="form-grid">
+            <label>Fecha
+                <input type="date" name="date" required th:value="${today}" th:max="${today}">
+            </label>
+            <label>Duración (minutos)
+                <input type="number" name="minutes" min="1" max="600" required placeholder="45">
+            </label>
+        </div>
+        <label>Notas de la sesión
+            <textarea name="notes" rows="3" maxlength="1000" placeholder="Cargas utilizadas, sensaciones o ajustes…"></textarea>
+        </label>
+        <button class="button">Registrar sesión</button>
+    </form>
+</main>
+</body>
+</html>

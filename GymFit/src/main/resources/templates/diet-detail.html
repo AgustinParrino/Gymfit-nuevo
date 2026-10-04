@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout :: head(${diet.name})}"></head>
+<body class="app-layout">
+
+<aside th:replace="~{layout :: sidebar}"></aside>
+
+<div class="app-content">
+    <header th:replace="~{layout :: topbar(${diet.name})}"></header>
+
+    <main class="main-body">
+        <div th:replace="~{layout :: alerts}"></div>
+
+        <div class="section-heading" style="margin-bottom: 1.5rem;">
+            <a th:href="@{/diets}" class="button" style="text-decoration: none;">← Volver a dietas</a>
+        </div>
+
+        <article class="panel" style="margin-bottom: 2rem;">
+            <div class="section-heading">
+                <span class="tile-icon">◈</span>
+                <span class="pill" th:text="${diet.type}">Tipo</span>
+            </div>
+            <h2 th:text="${diet.name}" style="margin: 0.5rem 0;"></h2>
+            <p><strong class="eyebrow">OBJETIVO:</strong> <span th:text="${diet.goal}"></span></p>
+            <p style="margin-top: 1rem; color: #a1a1aa; line-height: 1.6;" th:text="${diet.description}"></p>
+        </article>
+
+        <div class="section-heading">
+            <div>
+                <p class="eyebrow">DISTRIBUCIÓN DEL DÍA</p>
+                <h2 style="font-size: 1.3rem;">Comidas programadas</h2>
+            </div>
+        </div>
+
+        <section class="card-grid" style="grid-template-columns: 1fr;">
+            <article th:each="meal : ${mealsList}" class="panel" style="padding: 1.2rem 1.5rem; display: flex; align-items: center; gap: 1rem;">
+                <span class="tile-icon" style="min-width: 2rem; text-align: center;">✓</span>
+                <span style="font-weight: 500; font-size: 1.05rem;" th:text="${meal}">Comida</span>
+            </article>
+        </section>
+    </main>
+</div>
+
+</body>
+</html>
